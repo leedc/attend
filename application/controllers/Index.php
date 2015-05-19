@@ -90,8 +90,10 @@ class IndexController extends Yaf_Controller_Abstract
             echo "<script>alert('请输入课程名称');window.history.back();</script>";exit;
         }
         $attendid = Yaf_Session::getInstance()->get("attendediting");
-        if($attendid) {//(aid, tid, time, sector, classroom, classname,college,part1)
-
+        $userid = Yaf_Session::getInstance()->get("user");
+        $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
+        $attend = $rs->fetch();
+        if($attend) {//(aid, tid, time, sector, classroom, classname,college,part1)
             $flag = $dbh -> exec("update attend set aid='{$aid}',tid='{$tid}',time='{$date}',sector='{$sector}',classroom='{$classroom}',classname='{$classname}',college='{$collage}',part1=1 where id={$attendid}");
 
             $dbh -> exec("delete from ctoa where aid={$attendid}");
@@ -102,8 +104,7 @@ class IndexController extends Yaf_Controller_Abstract
 
             echo "<script>window.location.assign(\"/index.php?c=index&a=addattend\");</script>";
             exit;
-        }
-        else{
+        }else{
             if($dbh -> exec("insert into attend(aid, tid, time, sector, classroom, classname,college,part1) value('{$aid}', {$tid}, '{$date}', '{$sector}', '{$classroom}','{$classname}', '{$collage}',1)")){
                 $attendid=$dbh -> lastInsertId();
                 foreach($classes as $class){
@@ -114,6 +115,7 @@ class IndexController extends Yaf_Controller_Abstract
                 exit;
             }
         }
+
 
     }
 
@@ -341,5 +343,25 @@ class IndexController extends Yaf_Controller_Abstract
             $i++;
         }
         $this -> getView() -> assign("attends",$attends);
+    }
+    public function delattendAction(){
+
+        $attendid = $_GET['id'];
+        if($attendid) {
+            $userid = Yaf_Session::getInstance()->get("user");
+            $dbh = Yaf_Registry::get('_db');
+            $dbh->exec("delete from attend where status='0' and aid={$userid} and id='$attendid'");
+        }
+        echo "<script>window.location.assign(\"/index.php?c=index&a=listall\");</script>";
+    }
+    public function pushttendAction(){
+
+        $attendid = $_GET['id'];
+        if($attendid) {
+            $userid = Yaf_Session::getInstance()->get("user");
+            $dbh = Yaf_Registry::get('_db');
+            $dbh->exec("update attend set status=1 where status='0' and aid={$userid} and id='$attendid'");
+        }
+        echo "<script>window.location.assign(\"/index.php?c=index&a=listall\");</script>";
     }
 }

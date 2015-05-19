@@ -338,7 +338,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                         <span class="title">编辑</span>
                                                     </button>
                                                 </a>
-                                                <a href="#">
+                                                <a href="/index.php?c=index&a=delattend&id=<?php echo $attend['id']; ?>">
 
                                                     <button type="button" class="btn dark btn-xs">
                                                         <i class="icon-trash"></i>
@@ -348,7 +348,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 </a>
                                                 <?php if($attend['part1']=='1' && $attend['part2']=='1' && $attend['part3']=='1' && $attend['part4']=='1'){?>
 
-                                                    <a href="#">
+                                                    <a href="/index.php?c=index&a=pushttend&id=<?php echo $attend['id']; ?>">
                                                         <button type="button" class="btn blue btn-xs">
                                                         <i class="icon-ok"></i>
                                                         <span class="title">提交</span>
