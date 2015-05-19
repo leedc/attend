@@ -372,7 +372,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                             <div class="form-group ">
                                                 <label class="control-label col-md-3">听课时间</label>
                                                 <div class="col-md-4">
-                                                    <input name='date' required="" class="form-control form-control-inline input-medium date-picker" size="16" value="" type="text">
+                                                    <input name='date' required="" class="form-control form-control-inline input-medium date-picker" size="16" value="<?php if($attend) echo $attend['time'][5].$attend['time'][6].'/'.$attend['time'][8].$attend['time'][9].'/'.$attend['time'][0].$attend['time'][1].$attend['time'][2].$attend['time'][3] ?>" type="text">
 
                                                 </div>
                                             </div>
@@ -380,11 +380,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <label class="col-md-3 control-label">节&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;次</label>
                                                 <div class="col-md-4">
                                                     <select name="sector" required="" class="form-control form-control-inline input-medium">
-                                                        <option value="1">第1-2节</option>
-                                                        <option value="2">第3-4节</option>
-                                                        <option value="3">第5-6节</option>
-                                                        <option value="4">第7-8节</option>
-                                                        <option value="5">第9-10节</option>
+                                                        <option value="1" <?php  if($attend['sector']=="1") echo 'selected';?>>第1-2节</option>
+                                                        <option value="2" <?php  if($attend['sector']=="2") echo 'selected';?>>第3-4节</option>
+                                                        <option value="3" <?php  if($attend['sector']=="3") echo 'selected';?>>第5-6节</option>
+                                                        <option value="4" <?php  if($attend['sector']=="4") echo 'selected';?>>第7-8节</option>
+                                                        <option value="5" <?php  if($attend['sector']=="5") echo 'selected';?>>第9-10节</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -392,8 +392,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <label class="col-md-3 control-label">听课班级</label>
                                                 <div class="col-md-4">
                                                     <select name="classes[]" required="" multiple class="form-control form-control-inline input-medium">
-                                                        <?php foreach($classes as $class){ ?>
-                                                            <option value="<?php echo $class['cid'];?>"><?php echo $class['cid'];?></option>
+                                                        <?php foreach($classes as $class){ ?><!--aclasses-->
+                                                            <option value="<?php echo $class['cid'];?>" <?php  if(in_array($class['cid'],$aclasses)) echo 'selected';?>><?php echo $class['cid'];?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </div>
@@ -403,7 +403,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-4">
                                                     <select name="classroom" required="" class="form-control form-control-inline input-medium">
                                                         <?php foreach($classrooms as $classroom){ ?>
-                                                            <option value="<?php echo $classroom['classroom'];?>"><?php echo $classroom['classroom'];?></option>
+                                                            <option value="<?php echo $classroom['classroom'];?>" <?php  if($classroom['classroom']==$attend["classroom"]) echo 'selected';?>><?php echo $classroom['classroom'];?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </div>
@@ -413,7 +413,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-4">
                                                     <select name="teacher" required="" class="form-control form-control-inline input-medium">
                                                         <?php foreach($teachers as $teacher){ ?>
-                                                            <option value="<?php echo $teacher['tid'];?>"><?php echo $teacher['username'];?></option>
+                                                            <option value="<?php echo $teacher['tid'];?>" <?php  if($teacher['tid']==$attend["tid"]) echo 'selected';?>><?php echo $teacher['username'];?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </div>
@@ -421,7 +421,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">课程名称</label>
                                                 <div class="col-md-4">
-                                                    <input name="classname" required="" class="form-control form-control-inline input-medium"  type="text">
+                                                    <input name="classname" required="" value="<?php echo $attend['classname'];?>" class="form-control form-control-inline input-medium"  type="text">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -429,7 +429,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-4">
                                                     <select name="collage" required="" class="form-control form-control-inline input-medium">
                                                         <?php foreach($collages as $collage){ ?>
-                                                            <option value="<?php echo $collage['name'];?>"><?php echo $collage['name'];?></option>
+                                                            <option value="<?php echo $collage['name'];?>" <?php if($attend['collage']=$collage['name']) echo 'selected'; ?> ><?php echo $collage['name'];?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </div>

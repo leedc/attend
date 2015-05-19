@@ -11,7 +11,7 @@ class IndexController extends Yaf_Controller_Abstract
     {
         return true;
     }
-
+    //home page
     public function  mainAction()
     {
         $userid = Yaf_Session::getInstance()->get("user");
@@ -21,15 +21,29 @@ class IndexController extends Yaf_Controller_Abstract
         $this -> getView() -> assign("user",$user);
         return true;
     }
-    public function  attendAction()
-    {
-        $user = Yaf_Session::getInstance()->get("user");
-        $this -> getView() -> assign("user",$user);
-        return true;
-    }
+
+    //add lecture info page
     public function addinfoAction(){
-        $userid = Yaf_Session::getInstance()->get("user");
+        $attendid = $_GET['id'];
         $dbh = Yaf_Registry::get('_db');
+        $userid = Yaf_Session::getInstance()->get("user");
+        if($attendid){
+            $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
+            $attend = $rs->fetch();
+            if($attend){
+                $this -> getView() -> assign("attend",$attend);
+                Yaf_Session::getInstance()->set("attendediting",$attendid);
+                $rs = $dbh->query("select * from ctoa where aid ='{$attendid}'");
+                $aclasses=$rs->fetchAll();
+                $i=0;
+                foreach($aclasses as $class){
+                    $aclasses[$i] = $class['cid'];
+                    $i++;
+                }
+                $this -> getView() -> assign("aclasses",$aclasses);
+            }
+        }
+
         $rs = $dbh->query("select * from teacher where tid='{$userid}'");
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);
@@ -49,6 +63,8 @@ class IndexController extends Yaf_Controller_Abstract
         return true;
 
     }
+
+    //add lecture info
     public function doinfoAction() {
         $aid = Yaf_Session::getInstance()->get("user");
         $req = $this -> getRequest();
@@ -73,16 +89,35 @@ class IndexController extends Yaf_Controller_Abstract
         if($classname==null){
             echo "<script>alert('请输入课程名称');window.history.back();</script>";exit;
         }
-        if($dbh -> exec("insert into attend(aid, tid, time, sector, classroom, classname,college,part1) value('{$aid}', {$tid}, '{$date}', '{$sector}', '{$classroom}','{$classname}', '{$collage}',1)")){
-            $attendid=$dbh -> lastInsertId();
+        $attendid = Yaf_Session::getInstance()->get("attendediting");
+        if($attendid) {//(aid, tid, time, sector, classroom, classname,college,part1)
+
+            $flag = $dbh -> exec("update attend set aid='{$aid}',tid='{$tid}',time='{$date}',sector='{$sector}',classroom='{$classroom}',classname='{$classname}',college='{$collage}',part1=1 where id={$attendid}");
+
+            $dbh -> exec("delete from ctoa where aid={$attendid}");
             foreach($classes as $class){
                 $dbh -> exec("insert into ctoa value('$class',$attendid)");
             }
             Yaf_Session::getInstance()->set("attendediting",$attendid);
+
             echo "<script>window.location.assign(\"/index.php?c=index&a=addattend\");</script>";
             exit;
         }
+        else{
+            if($dbh -> exec("insert into attend(aid, tid, time, sector, classroom, classname,college,part1) value('{$aid}', {$tid}, '{$date}', '{$sector}', '{$classroom}','{$classname}', '{$collage}',1)")){
+                $attendid=$dbh -> lastInsertId();
+                foreach($classes as $class){
+                    $dbh -> exec("insert into ctoa value('$class',$attendid)");
+                }
+                Yaf_Session::getInstance()->set("attendediting",$attendid);
+                echo "<script>window.location.assign(\"/index.php?c=index&a=addattend\");</script>";
+                exit;
+            }
+        }
+
     }
+
+    //add attend content  page
     public function addattendAction(){
         $attendid = Yaf_Session::getInstance()->get("attendediting");
         if(!$attendid){
@@ -97,6 +132,8 @@ class IndexController extends Yaf_Controller_Abstract
         $stunum = $rs->fetch();
         $this -> getView() -> assign("stunum",$stunum);
     }
+
+    //add attend content
     public function doattendAction() {
         $req = $this -> getRequest();
         $latetime = $req -> getPost("latetime");
@@ -134,6 +171,7 @@ class IndexController extends Yaf_Controller_Abstract
         }
     }
 
+    //add sug page
     public function addsugAction(){
         $attendid = Yaf_Session::getInstance()->get("attendediting");
         if(!$attendid){
@@ -145,6 +183,8 @@ class IndexController extends Yaf_Controller_Abstract
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);
     }
+
+    //add sug
     public function dosugAction() {
         $req = $this -> getRequest();
         $suggeststudent = $req -> getPost("suggeststudent");
@@ -174,6 +214,8 @@ class IndexController extends Yaf_Controller_Abstract
         $dbh -> exec("update attend set suggeststudent='{$suggeststudent}',suggestteacher='{$suggestteacher}',suggesteach='{$suggesteach}',part3=1  where id={$attendid}");
         echo "<script>window.location.assign(\"/index.php?c=index&a=addphoto\");</script>";
     }
+
+    //add phpto page
     public function addphotoAction(){
         $attendid = Yaf_Session::getInstance()->get("attendediting");
         if(!$attendid){
@@ -185,6 +227,8 @@ class IndexController extends Yaf_Controller_Abstract
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);
     }
+
+    //add page
     public function dophotoAction() {
         $attendid = Yaf_Session::getInstance()->get("attendediting");
         if($_FILES["photo"]["error"] == UPLOAD_ERR_OK){
@@ -203,5 +247,74 @@ class IndexController extends Yaf_Controller_Abstract
         $attendid = Yaf_Session::getInstance()->get("attendediting");
         $dbh -> exec("update attend set photo='{$photo}',note='{$note}',part4=1  where id={$attendid}");
         echo "<script>window.location.assign(\"/index.php?c=index&a=main\");</script>";
+    }
+
+    //list all attend page
+    public function listallAction() {
+        $userid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
+        $user = $rs->fetch();
+        $this -> getView() -> assign("user",$user);
+
+        $rs = $dbh->query("select * from attend inner join teacher where attend.tid=teacher.tid and attend.aid='{$userid}'");
+        $attends = $rs->fetchAll();
+        $i=0;
+        foreach($attends as $attend){
+            $rs = $dbh->query("select * from ctoa where aid ='{$attend['id']}'");
+            $classes=$rs->fetchAll();
+            foreach($classes as $class){
+                $attend['classes'].=$class['cid'].=', ';
+            }
+            $attend['classes']=substr($attend['classes'],0,strlen($attend['classes'])-2);
+
+            $attends[$i]=$attend;
+            $i++;
+        }
+        $this -> getView() -> assign("attends",$attends);
+    }
+
+    //list all attend page
+    public function listpushAction() {
+        $userid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
+        $user = $rs->fetch();
+        $this -> getView() -> assign("user",$user);
+
+        $rs = $dbh->query("select * from attend inner join teacher where attend.tid=teacher.tid and attend.aid='{$userid}' and attend.status='1'");
+        $attends = $rs->fetchAll();
+        $i=0;
+        foreach($attends as $attend){
+            $rs = $dbh->query("select * from ctoa where aid ='{$attend['id']}'");
+            $classes=$rs->fetchAll();
+            foreach($classes as $class){
+                $attend['classes'].=$class['cid'].=', ';
+            }
+            $attends[$i]=$attend;
+            $i++;
+        }
+        $this -> getView() -> assign("attends",$attends);
+    }
+    public function listnotpushAction() {
+        $userid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
+        $user = $rs->fetch();
+        $this -> getView() -> assign("user",$user);
+
+        $rs = $dbh->query("select * from attend inner join teacher where attend.tid=teacher.tid and attend.aid='{$userid}' and attend.status='0'");
+        $attends = $rs->fetchAll();
+        $i=0;
+        foreach($attends as $attend){
+            $rs = $dbh->query("select * from ctoa where aid ='{$attend['id']}'");
+            $classes=$rs->fetchAll();
+            foreach($classes as $class){
+                $attend['classes'].=$class['cid'].=', ';
+            }
+            $attends[$i]=$attend;
+            $i++;
+        }
+        $this -> getView() -> assign("attends",$attends);
     }
 }
