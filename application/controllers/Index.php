@@ -123,8 +123,15 @@ class IndexController extends Yaf_Controller_Abstract
         if(!$attendid){
             echo "<script>alert('不存在需要继续编辑或添加的听课记录,将为您跳转到添加课程信息,您也可以通过查看记录选择为提交的记录进行编辑');window.location.assign(\"/index.php?c=index&a=addinfo\");</script>";
         }
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
+        $userid = Yaf_Session::getInstance()->get("user");
+
+
+        $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
+        $attend = $rs->fetch();
+        $this -> getView() -> assign("attend",$attend);
+
+
         $rs = $dbh->query("select * from teacher where tid='{$userid}'");
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);//;
@@ -177,8 +184,14 @@ class IndexController extends Yaf_Controller_Abstract
         if(!$attendid){
             echo "<script>alert('不存在需要继续编辑或添加的听课记录,将为您跳转到添加课程信息,您也可以通过查看记录选择为提交的记录进行编辑');window.location.assign(\"/index.php?c=index&a=addinfo\");</script>";
         }
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
+        $userid = Yaf_Session::getInstance()->get("user");
+
+
+        $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
+        $attend = $rs->fetch();
+        $this -> getView() -> assign("attend",$attend);
+
         $rs = $dbh->query("select * from teacher where tid='{$userid}'");
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);
@@ -221,8 +234,14 @@ class IndexController extends Yaf_Controller_Abstract
         if(!$attendid){
             echo "<script>alert('不存在需要继续编辑或添加的听课记录,将为您跳转到添加课程信息,您也可以通过查看记录选择为提交的记录进行编辑');window.location.assign(\"/index.php?c=index&a=addinfo\");</script>";
         }
+
         $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
+
+        $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
+        $attend = $rs->fetch();
+        $this -> getView() -> assign("attend",$attend);
+
         $rs = $dbh->query("select * from teacher where tid='{$userid}'");
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);
@@ -234,16 +253,22 @@ class IndexController extends Yaf_Controller_Abstract
         if($_FILES["photo"]["error"] == UPLOAD_ERR_OK){
             $ext= strtolower(end(explode('.',$_FILES['photo']['name'])));
             $tmp_name = $_FILES["photo"]["tmp_name"];
-            $photo= 'photo/'.date("YY_mm_dd",time())."_".$attendid.'_photo.'.$ext;//date("YY-mm-dd",time())."-".$attendid.
+            $photo= 'photo/'.date("Y_mm_dd",time())."_".$attendid.'_photo.'.$ext;//date("YY-mm-dd",time())."-".$attendid.
             move_uploaded_file($tmp_name, "$photo");
         }
         if($_FILES["note"]["error"] == UPLOAD_ERR_OK){
             $ext= strtolower(end(explode('.',$_FILES['photo']['name'])));
             $tmp_name = $_FILES["note"]["tmp_name"];
-            $note= 'photo/'.date("YY_mm_dd",time())."_".$attendid.'_note.'.$ext;//date("YY-mm-dd",time())."-".$attendid.
+            $note= 'photo/'.date("Y_mm_dd",time())."_".$attendid.'_note.'.$ext;//date("YY-mm-dd",time())."-".$attendid.
             move_uploaded_file($tmp_name, "$note");
         }
         $dbh = Yaf_Registry::get('_db');
+        $userid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select photo,note from attend where id='{$attendid}' and aid='$userid'");
+        $attend = $rs->fetch();
+
+
         $attendid = Yaf_Session::getInstance()->get("attendediting");
         $dbh -> exec("update attend set photo='{$photo}',note='{$note}',part4=1  where id={$attendid}");
         echo "<script>window.location.assign(\"/index.php?c=index&a=main\");</script>";
