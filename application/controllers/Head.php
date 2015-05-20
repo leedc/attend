@@ -6,7 +6,6 @@ class HeadController extends Yaf_Controller_Abstract {
 
     }
     public function  indexAction (){
-        echo "Head";
     }
 
 

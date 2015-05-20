@@ -407,4 +407,13 @@ class IndexController extends Yaf_Controller_Abstract
 
     }
 
+
+    public function browseAction() {
+        $userid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
+        $user = $rs->fetch();
+        $this -> getView() -> assign("user",$user);
+    }
+
 }

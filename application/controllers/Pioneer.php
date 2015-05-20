@@ -7,7 +7,6 @@ class PioneerController extends Yaf_Controller_Abstract {
     }
     //show login page
     public function  indexAction (){
-        echo "pioneer";
     }
 
 
