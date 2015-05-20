@@ -4,7 +4,12 @@ class IndexController extends Yaf_Controller_Abstract
 
     public function init()
     {
-
+        $userid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
+        $user = $rs->fetch();
+        $this -> getView() -> assign("user",$user);
+        return true;
     }
 
     public function  indexAction()
@@ -27,6 +32,7 @@ class IndexController extends Yaf_Controller_Abstract
         $attendid = $_GET['id'];
         $dbh = Yaf_Registry::get('_db');
         $userid = Yaf_Session::getInstance()->get("user");
+
         if($attendid){
             $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
             $attend = $rs->fetch();
@@ -42,6 +48,8 @@ class IndexController extends Yaf_Controller_Abstract
                 }
                 $this -> getView() -> assign("aclasses",$aclasses);
             }
+        }else{
+            Yaf_Session::getInstance()->del("attendediting");
         }
 
         $rs = $dbh->query("select * from teacher where tid='{$userid}'");
@@ -273,6 +281,7 @@ class IndexController extends Yaf_Controller_Abstract
 
         $attendid = Yaf_Session::getInstance()->get("attendediting");
         $dbh -> exec("update attend set photo='{$photo}',note='{$note}',part4=1  where id={$attendid}");
+        Yaf_Session::getInstance()->del("attendediting");
         echo "<script>window.location.assign(\"/index.php?c=index&a=main\");</script>";
     }
 
@@ -360,8 +369,42 @@ class IndexController extends Yaf_Controller_Abstract
         if($attendid) {
             $userid = Yaf_Session::getInstance()->get("user");
             $dbh = Yaf_Registry::get('_db');
+            $rs = $dbh->query("select * from attend  where aid='{$userid}' and id='{$attendid}'");
+            $attends = $rs->fetch();
+
+            $date = $attends['time'];
+            $date = ($date[0].$date[1].$date[2].$date[3].$date[5].$date[6].$date[8].$date[9]);
+            $time=date('Ymd',time())+0;
+            $datei =($date)+0;
+            if(!($datei <= $time && $datei >= ($time - 2)))
+            {
+                echo "<script>alert('只允许提交两天以内的听课记录');window.history.back();</script>";exit;
+            }
             $dbh->exec("update attend set status=1 where status='0' and aid={$userid} and id='$attendid'");
         }
         echo "<script>window.location.assign(\"/index.php?c=index&a=listall\");</script>";
     }
+    public function listteacherAction() {
+        $userid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
+        $user = $rs->fetch();
+        $this -> getView() -> assign("user",$user);
+        $rs = $dbh->query("select * from attend where tid='{$userid}'");
+        $attends = $rs->fetchAll();
+        $this -> getView() -> assign("attends",$attends);
+
+    }
+    public function listteachAction() {
+        $userid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
+        $user = $rs->fetch();
+        $this -> getView() -> assign("user",$user);
+        $rs = $dbh->query("select * from attend where tid='{$userid}'");
+        $attends = $rs->fetchAll();
+        $this -> getView() -> assign("attends",$attends);
+
+    }
+
 }

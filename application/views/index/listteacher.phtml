@@ -100,11 +100,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <div style="height: 20px">
                 </div>
             </li>
-            <li class="start active ">
+            <li class="start">
                 <a href="#">
                     <i class="icon-home"></i>
                     <span class="title">主页</span>
-                    <span class="selected"></span>
                 </a>
             </li>
             <li class="">
@@ -134,10 +133,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     </li>
                 </ul>
             </li>
-            <li class="">
+            <li class=" active ">
                 <a href="#">
                     <i class=" icon-envelope"></i>
                     <span class="title">教师评价</span>
+                    <span class="selected"></span>
                 </a>
             </li>
             <li class="">
@@ -277,7 +277,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                         <a href="#">教师</a>
                         <i class="icon-angle-right"></i>
                     </li>
-                    <li><a href="#">主页</a></li>
+                    <li><a href="#">教师评价</a></li>
                     <li class="pull-right">
                         <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
                             <i class="icon-calendar"></i>
@@ -289,7 +289,37 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             </div>
         </div>
         <!-- END PAGE HEADER-->
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <!-- BEGIN GENERAL PORTLET-->
 
+                </div>
+                <!-- BEGIN WELLS PORTLET-->
+                <div>
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-envelope" style="font-size: 18px"></i>教师评价</div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse"></a>
+                                <a href="#portlet-config" data-toggle="modal" class="config"></a>
+                                <a href="javascript:;" class="reload"></a>
+                                <a href="javascript:;" class="remove"></a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+
+                            <?php foreach($attends as $attend){ ?>
+                                <div class="well">
+                                    <?php echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$attend['suggestteacher'] ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+                <!-- END WELLS PORTLET-->
+            </div>
+        </div>
     </div>
     <!-- END PAGE -->
 </div>
