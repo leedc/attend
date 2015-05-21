@@ -477,5 +477,4 @@ class IndexController extends Yaf_Controller_Abstract
             echo "<script>alert('您输入的密码不正确');window.history.back();</script>";exit;
         }
     }
-
 }
