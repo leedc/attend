@@ -437,5 +437,45 @@ class IndexController extends Yaf_Controller_Abstract
 
 
     }
+    public function logoutAction(){
+        $_SESSION=array();
+        echo "<script>window.location.assign(\"/index.php?c=login\");</script>";
+        exit;
+    }
+    public function changepasswordAction(){
+        $userid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
+        $user = $rs->fetch();
+        $this -> getView() -> assign("user",$user);
+        return true;
+    }
+    public function dopasswordAction(){
+        $userid = Yaf_Session::getInstance()->get("user");
+        $req = $this -> getRequest();
+        $old = md5($req -> getPost('oldpasswd'));
+        $new = $req -> getPost('newpasswd');
+        $again = $req -> getPost('againpasswd');
+        echo $old.$new.$again;
+        if($new != $again){
+            echo "<script>alert('两次输入的密码不一样');window.history.back();</script>";
+        }
+        if(strlen($new)<6){
+            echo "<script>alert('密码长度不可以小于6位');window.history.back();</script>";
+        }
+        $dbh = Yaf_Registry::get('_db');
+        $rs = $dbh->query("select * from teacher where tid='{$userid}' and password='{$old}'");
+        $user = $rs->fetch();
+        if(user){
+            $new = md5($new);
+            $dbh -> exec("update teacher set password={$new} where tid='{$userid}'");
+            $_SESSION=array();
+            echo "<script>alert('密码修改成功,请重新登录');</script>";
+            echo "<script>window.location.assign(\"/index.php?c=login\");</script>";exit;
+        }
+        else{
+            echo "<script>alert('您输入的密码不正确');window.history.back();</script>";exit;
+        }
+    }
 
 }
