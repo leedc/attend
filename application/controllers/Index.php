@@ -4,16 +4,16 @@ class IndexController extends Yaf_Controller_Abstract
 
     public function init()
     {
+
+    }
+
+    public function  indexAction()
+    {
         $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
         $rs = $dbh->query("select * from teacher where tid='{$userid}'");
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);
-        return true;
-    }
-
-    public function  indexAction()
-    {
         return true;
     }
     //home page
@@ -414,6 +414,28 @@ class IndexController extends Yaf_Controller_Abstract
         $rs = $dbh->query("select * from teacher where tid='{$userid}'");
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);
+        $attendid = $_GET['id'];
+        if($attendid) {
+            $rs = $dbh->query("select * from attend  where aid='{$userid}' and id='{$attendid}'");
+            $attend = $rs->fetch();
+            if($attend){
+                $rs = $dbh->query("select * from ctoa where aid ='{$attend['id']}'");
+                $classes=$rs->fetchAll();
+                foreach($classes as $class){
+                    $attend['classes'].=$class['cid'].=', ';
+                }
+            }
+            $this -> getView() -> assign("attend",$attend);
+            $rs = $dbh->query("select * from teacher  where tid='{$attend['tid']}'");
+            $teacher = $rs->fetch();
+            $this -> getView() -> assign("teacher",$teacher);
+        }
+        else
+        {
+            echo "<script>window.location.assign(\"/index.php?c=index&a=listall\");</script>";exit;
+        }
+
+
     }
 
 }

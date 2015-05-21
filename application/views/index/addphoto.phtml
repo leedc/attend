@@ -371,13 +371,19 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                             <div class="form-group">
                                                 <label for="exampleInputFile" class="col-md-3 control-label">课堂照片</label>
                                                 <div class="col-md-9">
-                                                    <input name="photo" type="file" accept="image/gif, image/jpeg"><img width="500" src="<?php echo '/'.$attend['photo']; ?>">
+                                                    <input name="photo" type="file" accept="image/gif, image/jpeg">
+                                                    <?php  if($attend['photo']){?>
+                                                        <img width="500" src="<?php echo '/'.$attend['photo']; ?>">
+                                                    <?php  }?>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputFile" class="col-md-3 control-label">授课内容记录</label>
                                                 <div class="col-md-9">
-                                                    <input name="note" type="file" accept="image/gif, image/jpeg"><img width="500" src="<?php echo '/'.$attend['note']; ?>">
+                                                    <input name="note" type="file" accept="image/gif, image/jpeg">
+                                                    <?php  if($attend['note']){?>
+                                                        <img width="500" src="<?php echo '/'.$attend['note']; ?>">
+                                                    <?php  }?>
                                                 </div>
                                             </div>
                                         </div>
