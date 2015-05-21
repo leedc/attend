@@ -36,6 +36,15 @@ class UserPlugin extends Yaf_Plugin_Abstract {
             }
         }
 
+        if($request -> getControllerName() == 'Search'){
+            $userid = Yaf_Session::getInstance()->get("user");
+            $rs = $dbh->query("select * from teacher where tid='{$userid}' and (ispioneer=1 or isadmin=1)");
+            $classes = $rs->fetchAll();
+            if(!$classes){
+                echo "<script>window.location.assign(\"/index.php\");</script>";exit;
+            }
+        }
+
 
     }
     public function  dispatchLoopStartup ( Yaf_Request_Abstract $request ,  Yaf_Response_Abstract $response ) {

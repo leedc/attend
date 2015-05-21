@@ -14,6 +14,8 @@ class IndexController extends Yaf_Controller_Abstract
         $rs = $dbh->query("select * from teacher where tid='{$userid}'");
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);
+
+
         return true;
     }
     //home page
@@ -24,6 +26,29 @@ class IndexController extends Yaf_Controller_Abstract
         $rs = $dbh->query("select * from teacher where tid='{$userid}'");
         $user = $rs->fetch();
         $this -> getView() -> assign("user",$user);
+        $rs = $dbh->query("select count(*) as num from attend where aid='{$userid}'");
+        $attendtime = $rs->fetch();
+        $attend['time'] = $attendtime['num'];
+        if($user['isadmin'] == '1'){
+            $attend['must'] = 16;
+        }else if($user['issupervisor'] == '1'){
+            $attend['must'] = 8;
+        }else{
+            $attend['must'] = 4;
+        }
+        $this -> getView() -> assign("attend",$attend);
+
+        if($user['isheadtea'] == '1'){
+            $rs = $dbh->query("select * from class inner join teacher  inner join major where major.id=class.mid and teacher.tid=class.pid and  class.hid='{$userid}'");
+            $head = $rs->fetch();
+            $this -> getView() -> assign("head",$head);
+
+        }
+        if($user['ispioneer'] == '1'){
+            $rs = $dbh->query("select * from class inner join teacher  inner join major where major.id=class.mid and teacher.tid=class.hid and  class.pid='{$userid}'");
+            $pioneers = $rs->fetchAll();
+            $this -> getView() -> assign("pioneers",$pioneers);
+        }
         return true;
     }
 

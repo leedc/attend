@@ -61,19 +61,17 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             <li class="dropdown user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                    data-close-others="true">
-                    <img alt="" src="/assets/img/avatar1_small.jpg"/>
-                    <span class="username"><?php echo $user['username']; ?></span>
+                    <span class="username">您好,<?php echo $user['username']; ?>老师!!</span>
                     <i class="icon-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#"><i class="icon-user"></i> 个人资料</
-                    <li><a href="#"><i class="icon-tasks"></i> 修改密码</a></li>
+                    <li><a href="/index.php?a=main"><i class="icon-user"></i> 个人资料</a></li>
+                    <li><a href="/index.php?a=changepassword"><i class="icon-tasks"></i> 修改密码</a></li>
                     <li class="divider"></li>
                     <li><a href="javascript:;" id="trigger_fullscreen"><i class="icon-move"></i> 全屏</a>
                     </li>
-                    <li><a href="#"><i class="icon-lock"></i> 锁屏</a>
-                    </li>
-                    <li><a href="#"><i class="icon-key"></i> 注销</a>
+
+                    <li><a href="/index.php?a=logout"><i class="icon-key"></i> 注销</a>
                     </li>
                 </ul>
             </li>
@@ -101,13 +99,13 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 </div>
             </li>
             <li class="start ">
-                <a href="#">
+                <a href="/index.php?a=main">
                     <i class="icon-home"></i>
                     <span class="title">主页</span>
                 </a>
             </li>
             <li class="">
-                <a href="#">
+                <a href="/index.php?a=addinfo">
                     <i class=" icon-plus-sign"></i>
                     <span class="title">添加记录</span>
                 </a>
@@ -121,27 +119,27 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="#">
+                        <a href="/index.php?a=listall">
                             全部记录</a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/index.php?a=listpush">
                             已提交</a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/index.php?a=listnotpush">
                             未提交</a>
                     </li>
                 </ul>
             </li>
             <li class="">
-                <a href="#">
+                <a href="/index.php?a=listteacher">
                     <i class=" icon-envelope"></i>
                     <span class="title">教师评价</span>
                 </a>
             </li>
             <li class="">
-                <a href="#">
+                <a href="/index.php?a=listteach">
                     <i class="  icon-comments"></i>
                     <span class="title">教学建议</span>
                 </a>
@@ -279,9 +277,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     </li>
                     <li><a href="#">查看记录</a></li>
                     <li class="pull-right">
-                        <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
+                        <div id="dashboard-report-range" class="dashboard-date-range tooltips">
                             <i class="icon-calendar"></i>
-                            <span><?php echo date('Y年m月d日 ',time());  $weeks=array('周日','周一','周二','周三','周四','周五','周六');echo $weeks[date('w',time())+0]; ?></span>
+                            <span><?php echo date('Y年m月d日 ', time());
+                                $weeks = array('周日', '周一', '周二', '周三', '周四', '周五', '周六');
+                                echo $weeks[date('w', time()) + 0]; ?></span>
                         </div>
                     </li>
                 </ul>
@@ -303,14 +303,17 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                     <!-- BEGIN FORM-->
                                     <form class="form-horizontal" role="form">
                                         <div class="form-body">
-                                            <h2 class="margin-bottom-20"> <?php echo $attend['classname'];?> </h2>
+                                            <h2 class="margin-bottom-20"> <?php echo $attend['classname']; ?> </h2>
+
                                             <h3 class="form-section">课程信息</h3>
+
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">时间:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php echo $attend['time'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['time']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -318,8 +321,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">节次:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php $c= array("1-2节","3-4节","5-6节","7-8节","9-10节");echo $c[$attend['sector']-1];;?></p>
+                                                            <p class="form-control-static"><?php $c = array("1-2节", "3-4节", "5-6节", "7-8节", "9-10节");
+                                                                echo $c[$attend['sector'] - 1];; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -330,8 +335,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">班级:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php echo $attend['classes'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['classes']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -339,8 +345,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">教室:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php echo $attend['classroom'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['classroom']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -350,8 +357,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">教师:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php echo $teacher['username'];?></p>
+                                                            <p class="form-control-static"><?php echo $teacher['username']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -359,20 +367,23 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">学院:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php echo $attend['college'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['college']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!--/span-->
                                             </div>
                                             <h3 class="form-section">听课情况</h3>
+
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">迟到时间:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php echo $attend['latetime'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['latetime']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -380,8 +391,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">早退时间:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php echo $attend['earlytime'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['earlytime']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -391,8 +403,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">学生缺勤人数:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php echo $attend['stunum']-$attend['comenum']+0;?></p>
+                                                            <p class="form-control-static"><?php echo $attend['stunum'] - $attend['comenum'] + 0; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -400,8 +413,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">学生迟到人数:</label>
+
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"><?php echo $attend['latenum'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['latenum']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -411,92 +425,108 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-12">
                                                     <div class="form-group ">
                                                         <label class="control-label col-md-2">其他违纪情况:</label>
+
                                                         <div class="col-md-8">
-                                                            <textarea name="suggesteach" disabled class="form-control" rows="3"><?php echo $attend['other'];?></textarea>
+                                                            <textarea name="suggesteach" disabled class="form-control"
+                                                                      rows="3"><?php echo $attend['other']; ?></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!--/span-->
                                             </div>
                                             <h3 class="form-section">教师课堂评价指标</h3>
+
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">1.讲课有热情,精神饱满:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess1'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess1']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-4">2.讲课由感染力,能吸引学生的注意力:</label>
+                                                        <label
+                                                            class="control-label col-md-4">2.讲课由感染力,能吸引学生的注意力:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess2'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess2']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">3.对问题的阐述深入浅出,有启发性:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess3'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess3']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-4">4.对问题的阐述简练准确,中带泥土书,思路清晰:</label>
+                                                        <label
+                                                            class="control-label col-md-4">4.对问题的阐述简练准确,中带泥土书,思路清晰:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess4'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess4']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">5.对课程内容娴熟,运用自如:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess5'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess5']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">6.讲课内容充实,信息量大:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess6'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess6']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">7.教学内容能反映或联系学科发展的新思想,性爱年,新成果:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess7'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess7']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-4">8.能给予学生思考,联想,创造的启迪:</label>
+                                                        <label
+                                                            class="control-label col-md-4">8.能给予学生思考,联想,创造的启迪:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess8'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess8']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">9.能调动学生情绪,课堂气氛活跃:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess9'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess9']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">10.能有效地利用教学媒体:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess10'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess10']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -504,20 +534,24 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">总评价等级:</label>
+
                                                         <div class="col-md-8">
-                                                            <p class="form-control-static"><?php echo $attend['assess'];?></p>
+                                                            <p class="form-control-static"><?php echo $attend['assess']; ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!--/span-->
                                             </div>
                                             <h3 class="form-section">建议评价</h3>
+
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group ">
                                                         <label class="control-label col-md-2">对学生听课情况评价:</label>
+
                                                         <div class="col-md-8">
-                                                            <textarea name="suggesteach" disabled class="form-control" rows="3"><?php echo $attend['suggeststudent'];?></textarea>
+                                                            <textarea name="suggesteach" disabled class="form-control"
+                                                                      rows="3"><?php echo $attend['suggeststudent']; ?></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -527,8 +561,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-12">
                                                     <div class="form-group ">
                                                         <label class="control-label col-md-2">对教师教学情况评价:</label>
+
                                                         <div class="col-md-8">
-                                                            <textarea name="suggesteach" disabled class="form-control" rows="3"><?php echo $attend['suggestteacher'];?></textarea>
+                                                            <textarea name="suggesteach" disabled class="form-control"
+                                                                      rows="3"><?php echo $attend['suggestteacher']; ?></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -538,22 +574,27 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <div class="col-md-12">
                                                     <div class="form-group ">
                                                         <label class="control-label col-md-2">对教学的建议:</label>
+
                                                         <div class="col-md-8">
-                                                            <textarea name="suggesteach" disabled class="form-control" rows="3"><?php echo $attend['suggesteach'];?></textarea>
+                                                            <textarea name="suggesteach" disabled class="form-control"
+                                                                      rows="3"><?php echo $attend['suggesteach']; ?></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!--/span-->
                                             </div>
                                             <h3 class="form-section">附件</h3>
+
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group ">
                                                         <label class="control-label col-md-2">课堂照片:</label>
+
                                                         <div class="col-md-8">
-                                                            <?php  if($attend['photo']){?>
-                                                                <img width="500" src="<?php echo '/'.$attend['photo']; ?>">
-                                                            <?php  }?>
+                                                            <?php if ($attend['photo']) { ?>
+                                                                <img width="500"
+                                                                     src="<?php echo '/' . $attend['photo']; ?>">
+                                                            <?php } ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -561,43 +602,45 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                     <div class="col-md-12">
                                                         <div class="form-group ">
                                                             <label class="control-label col-md-2">授课内容记录:</label>
+
                                                             <div class="col-md-8">
-                                                                <?php  if($attend['note']){?>
-                                                                    <img width="500" src="<?php echo '/'.$attend['note']; ?>">
-                                                                <?php  }?>
+                                                                <?php if ($attend['note']) { ?>
+                                                                    <img width="500"
+                                                                         src="<?php echo '/' . $attend['note']; ?>">
+                                                                <?php } ?>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                        </div>
-                                        <div class="form-actions fluid">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="col-md-offset-3 col-md-9">
-                                                        <?php if($attend['status']=='0'){?>
-                                                        <a href="/index.php?c=index&a=addinfo&id=<?php echo $attend['id']; ?>">
-                                                            <button type="button"  class="btn red ">
-                                                                <i class="icon-edit"></i>
-                                                                <span class="title">编辑</span>
-                                                            </button>
-                                                        </a>
-                                                            <?php if($attend['part1']=='1' && $attend['part2']=='1' && $attend['part3']=='1' && $attend['part4']=='1'){?>
+                                                </div>
+                                                <div class="form-actions fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="col-md-offset-3 col-md-9">
+                                                                <?php if ($attend['status'] == '0') { ?>
+                                                                    <a href="/index.php?c=index&a=addinfo&id=<?php echo $attend['id']; ?>">
+                                                                        <button type="button" class="btn red ">
+                                                                            <i class="icon-edit"></i>
+                                                                            <span class="title">编辑</span>
+                                                                        </button>
+                                                                    </a>
+                                                                    <?php if ($attend['part1'] == '1' && $attend['part2'] == '1' && $attend['part3'] == '1' && $attend['part4'] == '1') { ?>
 
-                                                                <a href="/index.php?c=index&a=pushttend&id=<?php echo $attend['id']; ?>">
-                                                                    <button type="button" class="btn blue ">
-                                                                        <i class="icon-ok"></i>
-                                                                        <span class="title">提交</span>
-                                                                    </button>
-                                                                </a>
-                                                            <?php }?>
+                                                                        <a href="/index.php?c=index&a=pushttend&id=<?php echo $attend['id']; ?>">
+                                                                            <button type="button" class="btn blue ">
+                                                                                <i class="icon-ok"></i>
+                                                                                <span class="title">提交</span>
+                                                                            </button>
+                                                                        </a>
+                                                                    <?php } ?>
 
-                                                        <?php }?>
+                                                                <?php } ?>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                </div>
-                                            </div>
-                                        </div>
                                     </form>
                                     <!-- END FORM-->
                                 </div>

@@ -61,19 +61,17 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             <li class="dropdown user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                    data-close-others="true">
-                    <img alt="" src="/assets/img/avatar1_small.jpg"/>
-                    <span class="username"><?php echo $user['username']; ?></span>
+                    <span class="username">您好,<?php echo $user['username']; ?>老师!!</span>
                     <i class="icon-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#"><i class="icon-user"></i> 个人资料</
-                    <li><a href="#"><i class="icon-tasks"></i> 修改密码</a></li>
+                    <li><a href="/index.php?a=main"><i class="icon-user"></i> 个人资料</a></li>
+                    <li><a href="/index.php?a=changepassword"><i class="icon-tasks"></i> 修改密码</a></li>
                     <li class="divider"></li>
                     <li><a href="javascript:;" id="trigger_fullscreen"><i class="icon-move"></i> 全屏</a>
                     </li>
-                    <li><a href="#"><i class="icon-lock"></i> 锁屏</a>
-                    </li>
-                    <li><a href="#"><i class="icon-key"></i> 注销</a>
+
+                    <li><a href="/index.php?a=logout"><i class="icon-key"></i> 注销</a>
                     </li>
                 </ul>
             </li>
@@ -101,14 +99,14 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     </div>
             </li>
             <li class="start active ">
-                <a href="#">
+                <a href="/index.php?a=main">
                     <i class="icon-home"></i>
                     <span class="title">主页</span>
                     <span class="selected"></span>
                 </a>
             </li>
             <li class="">
-                <a href="#">
+                <a href="/index.php?a=addinfo">
                     <i class=" icon-plus-sign"></i>
                     <span class="title">添加记录</span>
                 </a>
@@ -121,27 +119,27 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="#">
+                        <a href="/index.php?a=listall">
                             全部记录</a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/index.php?a=listpush">
                             已提交</a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/index.php?a=listnotpush">
                             未提交</a>
                     </li>
                 </ul>
             </li>
             <li class="">
-                <a href="#">
+                <a href="/index.php?a=listteacher">
                     <i class=" icon-envelope"></i>
                     <span class="title">教师评价</span>
                 </a>
             </li>
             <li class="">
-                <a href="#">
+                <a href="/index.php?a=listteach">
                     <i class="  icon-comments"></i>
                     <span class="title">教学建议</span>
                 </a>
@@ -289,7 +287,187 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             </div>
         </div>
         <!-- END PAGE HEADER-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable tabbable-custom boxless">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_3">
+                            <div class="portlet box blue">
+                                <div class="portlet-title">
+                                    <div class="caption"><i class="icon-reorder"></i>个人主页</div>
 
+                                </div>
+                                <div class="portlet-body form">
+                                    <!-- BEGIN FORM-->
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">学&nbsp;&nbsp;工&nbsp;&nbsp;号:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $user['tid'];?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $user['username'];?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $user['email'];?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">听课情况:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><b style="font-size: 20px"><?php echo  $attend['time'];?></b>/<?php echo  $attend['must'];?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <div id="bar" class="progress progress-striped" role="progressbar">
+                                                <div style="width: <?php echo $attend['time']/$attend['must']*100?>%;" class="progress-bar progress-bar-success"></div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if($user['isheadtea'] == 1){?>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
+                <div class="portlet box red">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>班主任所带班级</div>
+
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr  style="text-align: center">
+                                    <th>班级</th>
+                                    <th>专业</th>
+                                    <th>入学年份</th>
+                                    <th>辅导员</th>
+                                    <th>人数</th>
+                                    <th>查看</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><?php echo $head['cid']; ?></td>
+                                        <td><?php echo $head['majorname']; ?></td>
+                                        <td><?php echo $head['year']; ?></td>
+                                        <td><?php echo $head['username']; ?></td>
+                                        <td><?php echo $head['count']; ?></td>
+                                        <td>
+                                            <a href="#">
+                                                <button type="button" class="btn yellow btn-xs">
+                                                    <i class="icon-search"></i>
+                                                    <span class="title">查看</span>
+                                                </button>
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE TABLE PORTLET-->
+
+            </div>
+        </div>
+        <?php } ?>
+
+        <?php if($user['ispioneer'] == 1){?>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN SAMPLE TABLE PORTLET-->
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-book" style="font-size: 18px"></i>辅导员所带班级</div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr  style="text-align: center">
+                                        <th>班级</th>
+                                        <th>专业</th>
+                                        <th>入学年份</th>
+                                        <th>班主任</th>
+                                        <th>人数</th>
+                                        <th>查看</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($pioneers as $pioneer){?>
+
+                                    <tr>
+                                        <td><?php echo $pioneer['cid']; ?></td>
+                                        <td><?php echo $pioneer['majorname']; ?></td>
+                                        <td><?php echo $pioneer['year']; ?></td>
+                                        <td><?php echo $pioneer['username']; ?></td>
+                                        <td><?php echo $pioneer['count']; ?></td>
+                                        <td>
+                                            <a href="#">
+                                                <button type="button" class="btn yellow btn-xs">
+                                                    <i class="icon-search"></i>
+                                                    <span class="title">查看</span>
+                                                </button>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                    <?php }?>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END SAMPLE TABLE PORTLET-->
+
+                </div>
+            </div>
+        <?php } ?>
     </div>
     <!-- END PAGE -->
 </div>
