@@ -9,6 +9,7 @@ class UserPlugin extends Yaf_Plugin_Abstract {
         $pass='admin';
         $dbh = new PDO('mysql:host=localhost;dbname=lecture', $user, $pass);
         Yaf_Registry::set('_db', $dbh);
+
         if($request->getControllerName() != 'Login'){
             if(!Yaf_Session::getInstance()->has("user")){
                 if($_COOKIE['user']){
@@ -18,33 +19,45 @@ class UserPlugin extends Yaf_Plugin_Abstract {
                     exit;
                 }
             }
-        }
-        if($request -> getControllerName() == 'Pioneer'){
             $userid = Yaf_Session::getInstance()->get("user");
-            $rs = $dbh->query("select * from class where pid='{$userid}'");
-            $classes = $rs->fetchAll();
-            if(!$classes){
-                echo "<script>window.location.assign(\"/index.php\");</script>";exit;
+            $rs = $dbh->query("select * from teacher where tid='{$userid}'");
+            $user=$rs->fetch();
+            if(!$user){
+                echo "<script>window.location.assign(\"/index.php?c=login\");</script>";exit;
             }
-        }
-        if($request -> getControllerName() == 'Head'){
-            $userid = Yaf_Session::getInstance()->get("user");
-            $rs = $dbh->query("select * from class where hid='{$userid}'");
-            $classes = $rs->fetchAll();
-            if(!$classes){
-                echo "<script>window.location.assign(\"/index.php\");</script>";exit;
+            Yaf_Registry::set('user', $user);
+            if($user['ispioneer']=='1'){
+                $rs = $dbh->query("select * from class where pid='{$userid}'");
+                $pclasses = $rs->fetchAll();
+                Yaf_Registry::set('pclass', $pclasses);
             }
-        }
+            if($user['isheadtea']=='1'){
+                $rs = $dbh->query("select * from class where hid='{$userid}'");
+                $hclass = $rs->fetch();
+                Yaf_Registry::set('hclass', $hclass);
+            }
+            if($request -> getControllerName() == 'Pioneer'){
+                if(!$pclasses){
+                    echo "<script>window.location.assign(\"/index.php\");</script>";exit;
+                }
+            }
+            if($request -> getControllerName() == 'Head'){
+                if(!$hclass){
+                    echo "<script>window.location.assign(\"/index.php\");</script>";exit;
+                }
+            }
 
-        if($request -> getControllerName() == 'Search'){
-            $userid = Yaf_Session::getInstance()->get("user");
-            $rs = $dbh->query("select * from teacher where tid='{$userid}' and (ispioneer=1 or isadmin=1)");
-            $classes = $rs->fetchAll();
-            if(!$classes){
-                echo "<script>window.location.assign(\"/index.php\");</script>";exit;
+            if($request -> getControllerName() == 'Search'){
+                if($user['ispioneer']!='1' && $user['isadmin']!='1'){
+                    echo "<script>window.location.assign(\"/index.php\");</script>";exit;
+                }
+            }
+            if($request -> getControllerName() == 'Manage'){
+                if($user['isadmin']!='1'){
+                    echo "<script>window.location.assign(\"/index.php\");</script>";exit;
+                }
             }
         }
-
 
     }
     public function  dispatchLoopStartup ( Yaf_Request_Abstract $request ,  Yaf_Response_Abstract $response ) {

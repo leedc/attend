@@ -131,11 +131,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     </li>
                 </ul>
             </li>
-            <li class=" active ">
+            <li class="">
                 <a href="/index.php?a=listteacher">
                     <i class=" icon-envelope"></i>
                     <span class="title">教师评价</span>
-                    <span class="selected"></span>
                 </a>
             </li>
             <li class="">
@@ -144,90 +143,109 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     <span class="title">教学建议</span>
                 </a>
             </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-th-large"></i>
-                    <span class="title">班级管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            计科111</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            计科112</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            计科113</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-search"></i>
-                    <span class="title">查阅记录</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            按专业查阅</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            按年级查阅</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            按班级查阅</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-bar-chart"></i>
-                    <span class="title">查看统计</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            班级统计</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            教师统计</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            系统抽查</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-cogs"></i>
-                    <span class="title">系统管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            账户管理</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            专业管理</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            班级管理</a>
-                    </li>
-                </ul>
-            </li>
+
+            <?php if($pclasses || $class){ ?>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-th-large"></i>
+                        <span class="title">班级管理</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <?php foreach($pclasses as $pclass){ ?>
+                            <li>
+                                <a href="/index.php?c=pioneer&cid=<?php echo $pclass['cid'] ?>">
+                                    <?php echo $pclass['cid'] ?></a>
+                            </li>
+                        <?php } ?>
+                        <?php if($hclass){ ?>
+                            <li>
+                                <a href="/index.php?c=head&cid=<?php echo $hclass['cid'] ?>">
+                                    <?php echo $hclass['cid'] ?></a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </li>
+
+            <?php } ?>
+
+            <?php if($pclasses || $user['isadmin']=='1'){ ?>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-search"></i>
+                        <span class="title">查阅记录</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="/index.php?c=search&a=majorlist">
+                                按专业查阅</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=search&a=gradelist">
+                                按年级查阅</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=search&a=classlist">
+                                按班级查阅</a>
+                        </li>
+                    </ul>
+                </li>
+
+            <?php } ?>
+            <?php if($user['isadmin']=='1'){ ?>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-bar-chart"></i>
+                        <span class="title">查看统计</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="/index.php?c=manage&a=classes">
+                                班级统计</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=teacher">
+                                教师统计</a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                系统抽查</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-cogs"></i>
+                        <span class="title">系统管理</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="/index.php?c=manage&a=mcollege">
+                                学院管理</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=mclassroom">
+                                教室管理</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=mteacher">
+                                教师管理</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=mmajor">
+                                专业管理</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=mclass">
+                                班级管理</a>
+                        </li>
+                    </ul>
+                </li>
+
+            <?php } ?>
             <li class="last ">
                 <a href="">
                     <i class="icon-edit"></i>
@@ -298,12 +316,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     <div class="portlet">
                         <div class="portlet-title">
                             <div class="caption"><i class="icon-envelope" style="font-size: 18px"></i>教师评价</div>
-                            <div class="tools">
-                                <a href="javascript:;" class="collapse"></a>
-                                <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                                <a href="javascript:;" class="reload"></a>
-                                <a href="javascript:;" class="remove"></a>
-                            </div>
+
                         </div>
                         <div class="portlet-body">
 

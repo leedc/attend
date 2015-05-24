@@ -65,7 +65,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     <i class="icon-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="/index.php?a=main"><i class="icon-user"></i> 个人资料</a></li>a></li>
+                    <li><a href="/index.php?a=main"><i class="icon-user"></i> 个人资料</a></li>
                     <li><a href="/index.php?a=changepassword"><i class="icon-tasks"></i> 修改密码</a></li>
                     <li class="divider"></li>
                     <li><a href="javascript:;" id="trigger_fullscreen"><i class="icon-move"></i> 全屏</a>
@@ -98,11 +98,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <div style="height: 20px">
                 </div>
             </li>
-            <li class="start active ">
+            <li class="start">
                 <a href="/index.php?a=main">
                     <i class="icon-home"></i>
                     <span class="title">主页</span>
-                    <span class="selected"></span>
                 </a>
             </li>
             <li class="">
@@ -144,48 +143,57 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     <span class="title">教学建议</span>
                 </a>
             </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-th-large"></i>
-                    <span class="title">班级管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            计科111</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            计科112</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            计科113</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-search"></i>
-                    <span class="title">查阅记录</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            按专业查阅</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            按年级查阅</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            按班级查阅</a>
-                    </li>
-                </ul>
-            </li>
+
+            <?php if($pclasses || $class){ ?>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-th-large"></i>
+                        <span class="title">班级管理</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <?php foreach($pclasses as $pclass){ ?>
+                            <li>
+                                <a href="/index.php?c=pioneer&cid=<?php echo $pclass['cid'] ?>">
+                                    <?php echo $pclass['cid'] ?></a>
+                            </li>
+                        <?php } ?>
+                        <?php if($hclass){ ?>
+                            <li>
+                                <a href="/index.php?c=head&cid=<?php echo $hclass['cid'] ?>">
+                                    <?php echo $hclass['cid'] ?></a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </li>
+
+            <?php } ?>
+
+            <?php if($pclasses || $user['isadmin']=='1'){ ?>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-search"></i>
+                        <span class="title">查阅记录</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="/index.php?c=search&a=majorlist">
+                                按专业查阅</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=search&a=gradelist">
+                                按年级查阅</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=search&a=classlist">
+                                按班级查阅</a>
+                        </li>
+                    </ul>
+                </li>
+
+            <?php } ?>
+            <?php if($user['isadmin']=='1'){ ?>
             <li class="">
                 <a href="javascript:;">
                     <i class="icon-bar-chart"></i>
@@ -194,11 +202,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="#">
+                        <a href="/index.php?c=manage&a=classes">
                             班级统计</a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/index.php?c=manage&a=teacher">
                             教师统计</a>
                     </li>
                     <li>
@@ -215,19 +223,29 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="#">
-                            账户管理</a>
+                        <a href="/index.php?c=manage&a=mcollege">
+                            学院管理</a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/index.php?c=manage&a=mclassroom">
+                            教室管理</a>
+                    </li>
+                    <li>
+                        <a href="/index.php?c=manage&a=mteacher">
+                            教师管理</a>
+                    </li>
+                    <li>
+                        <a href="/index.php?c=manage&a=mmajor">
                             专业管理</a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/index.php?c=manage&a=mclass">
                             班级管理</a>
                     </li>
                 </ul>
             </li>
+
+            <?php } ?>
             <li class="last ">
                 <a href="">
                     <i class="icon-edit"></i>
@@ -295,7 +313,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN FOOTER -->
 <div class="footer">
     <div class="footer-inner">
-        2013 &copy; Metronic by keenthemes.
+        2015 &copy; 山东建筑大学 计算机科学与技术学院  李志磊
     </div>
     <div class="footer-tools">
          <span class="go-top">

@@ -6,18 +6,17 @@ class SearchController extends Yaf_Controller_Abstract
     {
 
     }
-    public function  indexAction()
-    {
-
-    }
     public function browseAction(){
-        $userid = Yaf_Session::getInstance()->get("user");
-        $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
-        $attendid = $_GET['aid'];
 
+
+        $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $attendid = $_GET['aid'];
         if($attendid) {
             $rs = $dbh->query("select * from attend  where id='{$attendid}'");
             $attend = $rs->fetch();
@@ -40,11 +39,14 @@ class SearchController extends Yaf_Controller_Abstract
     }
     public function  majorlistAction()
     {
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+
         $rs = $dbh->query("select * from major");
         $majors = $rs->fetchAll();
         $i=0;
@@ -65,11 +67,13 @@ class SearchController extends Yaf_Controller_Abstract
     }
     public function  majorbrowseAction()
     {
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
 
         $mid = $_GET['mid'];
         if($mid) {
@@ -105,11 +109,13 @@ class SearchController extends Yaf_Controller_Abstract
     }
     public function  gradelistAction()
     {
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
 
         $rs = $dbh->query("select year from class group by year");
         $grades = $rs->fetchAll();
@@ -131,11 +137,13 @@ class SearchController extends Yaf_Controller_Abstract
     }
     public function  gradebrowseAction()
     {
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
         $gid = $_GET['gid'];
         if($gid) {$rs = $dbh->query("select aid from ctoa inner join class where class.cid=ctoa.cid and class.year='{$gid}' group by aid");
             $attendids = $rs->fetchAll();
@@ -168,11 +176,13 @@ class SearchController extends Yaf_Controller_Abstract
     }
     public function  classlistAction()
     {
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
 
 
         $rs = $dbh->query("select cid,year,majorname,count,pteacher.username as pname,head.username as hname from class inner join major inner join teacher as pteacher inner join teacher as head where major.id=class.mid and class.pid=pteacher.tid and head.tid=class.hid");
@@ -182,11 +192,13 @@ class SearchController extends Yaf_Controller_Abstract
     }
     public function  classbrowseAction()
     {
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
 
 
         $cid = $_GET['cid'];

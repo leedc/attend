@@ -9,23 +9,26 @@ class IndexController extends Yaf_Controller_Abstract
 
     public function  indexAction()
     {
-        $userid = Yaf_Session::getInstance()->get("user");
-        $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
-
-
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
         return true;
     }
+
     //home page
     public function  mainAction()
     {
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
         $rs = $dbh->query("select count(*) as num from attend where aid='{$userid}'");
         $attendtime = $rs->fetch();
         $attend['time'] = $attendtime['num'];
@@ -51,13 +54,17 @@ class IndexController extends Yaf_Controller_Abstract
         }
         return true;
     }
-
     //add lecture info page
     public function addinfoAction(){
         $attendid = $_GET['id'];
         $dbh = Yaf_Registry::get('_db');
-        $userid = Yaf_Session::getInstance()->get("user");
-
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
         if($attendid){
             $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
             $attend = $rs->fetch();
@@ -76,10 +83,6 @@ class IndexController extends Yaf_Controller_Abstract
         }else{
             Yaf_Session::getInstance()->del("attendediting");
         }
-
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
         $rs = $dbh->query("select * from classroom order by  convert(classroom using gb2312) ");
         $classrooms = $rs->fetchAll();
         $this -> getView() -> assign("classrooms",$classrooms);
@@ -99,7 +102,9 @@ class IndexController extends Yaf_Controller_Abstract
 
     //add lecture info
     public function doinfoAction() {
-        $aid = Yaf_Session::getInstance()->get("user");
+        $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $userid = $user['tid'];
         $req = $this -> getRequest();
         $date = $req -> getPost('date');
         $date = $date[6].$date[7].$date[8].$date[9].$date[0].$date[1].$date[3].$date[4];
@@ -115,7 +120,6 @@ class IndexController extends Yaf_Controller_Abstract
         $classroom = $req -> getPost('classroom');
         $classname = $req -> getPost('classname');
         $collage = $req -> getPost('collage');
-        $dbh = Yaf_Registry::get('_db');
         if($classes==null){
             echo "<script>alert('请选择上课班级');window.history.back();</script>";exit;
         }
@@ -123,11 +127,10 @@ class IndexController extends Yaf_Controller_Abstract
             echo "<script>alert('请输入课程名称');window.history.back();</script>";exit;
         }
         $attendid = Yaf_Session::getInstance()->get("attendediting");
-        $userid = Yaf_Session::getInstance()->get("user");
         $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
         $attend = $rs->fetch();
         if($attend) {//(aid, tid, time, sector, classroom, classname,college,part1)
-            $flag = $dbh -> exec("update attend set aid='{$aid}',tid='{$tid}',time='{$date}',sector='{$sector}',classroom='{$classroom}',classname='{$classname}',college='{$collage}',part1=1 where id={$attendid}");
+            $flag = $dbh -> exec("update attend set aid='{$userid}',tid='{$tid}',time='{$date}',sector='{$sector}',classroom='{$classroom}',classname='{$classname}',college='{$collage}',part1=1 where id={$attendid}");
 
             $dbh -> exec("delete from ctoa where aid={$attendid}");
             foreach($classes as $class){
@@ -138,7 +141,7 @@ class IndexController extends Yaf_Controller_Abstract
             echo "<script>window.location.assign(\"/index.php?c=index&a=addattend\");</script>";
             exit;
         }else{
-            if($dbh -> exec("insert into attend(aid, tid, time, sector, classroom, classname,college,part1) value('{$aid}', {$tid}, '{$date}', '{$sector}', '{$classroom}','{$classname}', '{$collage}',1)")){
+            if($dbh -> exec("insert into attend(aid, tid, time, sector, classroom, classname,college,part1) value('{$userid}', {$tid}, '{$date}', '{$sector}', '{$classroom}','{$classname}', '{$collage}',1)")){
                 $attendid=$dbh -> lastInsertId();
                 foreach($classes as $class){
                     $dbh -> exec("insert into ctoa value('$class',$attendid)");
@@ -158,19 +161,21 @@ class IndexController extends Yaf_Controller_Abstract
         if(!$attendid){
             echo "<script>alert('不存在需要继续编辑或添加的听课记录,将为您跳转到添加课程信息,您也可以通过查看记录选择为提交的记录进行编辑');window.location.assign(\"/index.php?c=index&a=addinfo\");</script>";
         }
+
         $dbh = Yaf_Registry::get('_db');
-        $userid = Yaf_Session::getInstance()->get("user");
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
 
 
         $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
         $attend = $rs->fetch();
         $this -> getView() -> assign("attend",$attend);
-
-
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);//;
-        $rs = $dbh->query("select sum(count) from ctoa inner join class where ctoa.cid=class.cid AND ctoa.aid= $attendid");
+        $rs = $dbh->query("select sum(count) from ctoa inner join class where ctoa.cid=class.cid AND ctoa.aid='{$attendid}'");
         $stunum = $rs->fetch();
         $this -> getView() -> assign("stunum",$stunum);
     }
@@ -204,8 +209,9 @@ class IndexController extends Yaf_Controller_Abstract
             echo "<script>alert('实际上课人数或迟到不能大于学生人数');window.history.back();</script>";exit;
         }
         $attendid = Yaf_Session::getInstance()->get("attendediting");
+
+        $dbh = Yaf_Registry::get('_db');
         if($attendid){
-            $dbh = Yaf_Registry::get('_db');
             $dbh -> exec("update attend set latetime={$latetime},earlytime={$earlytime},other='{$other}',stunum={$stunum},latenum={$latenum},comenum={$comenum},assess1='{$assess[0]}',assess2='{$assess[1]}',assess3='{$assess[2]}',assess4='{$assess[3]}',assess5='{$assess[4]}',assess6='{$assess[5]}',assess7='{$assess[6]}',assess8='{$assess[7]}',assess9='{$assess[8]}',assess10='{$assess[9]}',assess={$assess[10]},part2=1 where id={$attendid}");
             echo "<script>window.location.assign(\"/index.php?c=index&a=addsug\");</script>";
         }else{
@@ -219,17 +225,20 @@ class IndexController extends Yaf_Controller_Abstract
         if(!$attendid){
             echo "<script>alert('不存在需要继续编辑或添加的听课记录,将为您跳转到添加课程信息,您也可以通过查看记录选择为提交的记录进行编辑');window.location.assign(\"/index.php?c=index&a=addinfo\");</script>";
         }
+
         $dbh = Yaf_Registry::get('_db');
-        $userid = Yaf_Session::getInstance()->get("user");
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
 
 
         $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
         $attend = $rs->fetch();
         $this -> getView() -> assign("attend",$attend);
-
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
     }
 
     //add sug
@@ -270,16 +279,19 @@ class IndexController extends Yaf_Controller_Abstract
             echo "<script>alert('不存在需要继续编辑或添加的听课记录,将为您跳转到添加课程信息,您也可以通过查看记录选择为提交的记录进行编辑');window.location.assign(\"/index.php?c=index&a=addinfo\");</script>";
         }
 
-        $userid = Yaf_Session::getInstance()->get("user");
+
         $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
 
         $rs = $dbh->query("select * from attend where id='{$attendid}' and aid='$userid'");
         $attend = $rs->fetch();
         $this -> getView() -> assign("attend",$attend);
-
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
     }
 
     //add page
@@ -298,8 +310,8 @@ class IndexController extends Yaf_Controller_Abstract
             move_uploaded_file($tmp_name, "$note");
         }
         $dbh = Yaf_Registry::get('_db');
-        $userid = Yaf_Session::getInstance()->get("user");
-        $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $userid = $user['tid'];
         $rs = $dbh->query("select photo,note from attend where id='{$attendid}' and aid='$userid'");
         $attend = $rs->fetch();
 
@@ -312,12 +324,15 @@ class IndexController extends Yaf_Controller_Abstract
 
     //list all attend page
     public function listallAction() {
-        $userid = Yaf_Session::getInstance()->get("user");
-        $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
 
+        $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
         $rs = $dbh->query("select * from attend inner join teacher where attend.tid=teacher.tid and attend.aid='{$userid}'");
         $attends = $rs->fetchAll();
         $i=0;
@@ -337,12 +352,17 @@ class IndexController extends Yaf_Controller_Abstract
 
     //list all attend page
     public function listpushAction() {
-        $userid = Yaf_Session::getInstance()->get("user");
-        $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
 
+
+
+        $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
         $rs = $dbh->query("select * from attend inner join teacher where attend.tid=teacher.tid and attend.aid='{$userid}' and attend.status='1'");
         $attends = $rs->fetchAll();
         $i=0;
@@ -358,11 +378,15 @@ class IndexController extends Yaf_Controller_Abstract
         $this -> getView() -> assign("attends",$attends);
     }
     public function listnotpushAction() {
-        $userid = Yaf_Session::getInstance()->get("user");
+
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
 
         $rs = $dbh->query("select * from attend inner join teacher where attend.tid=teacher.tid and attend.aid='{$userid}' and attend.status='0'");
         $attends = $rs->fetchAll();
@@ -382,7 +406,8 @@ class IndexController extends Yaf_Controller_Abstract
 
         $attendid = $_GET['id'];
         if($attendid) {
-            $userid = Yaf_Session::getInstance()->get("user");
+            $user = Yaf_Registry::get('user');
+            $userid = $user['tid'];
             $dbh = Yaf_Registry::get('_db');
             $dbh->exec("delete from attend where status='0' and aid={$userid} and id='$attendid'");
         }
@@ -392,7 +417,8 @@ class IndexController extends Yaf_Controller_Abstract
 
         $attendid = $_GET['id'];
         if($attendid) {
-            $userid = Yaf_Session::getInstance()->get("user");
+            $user = Yaf_Registry::get('user');
+            $userid = $user['tid'];
             $dbh = Yaf_Registry::get('_db');
             $rs = $dbh->query("select * from attend  where aid='{$userid}' and id='{$attendid}'");
             $attends = $rs->fetch();
@@ -409,36 +435,48 @@ class IndexController extends Yaf_Controller_Abstract
         }
         echo "<script>window.location.assign(\"/index.php?c=index&a=listall\");</script>";
     }
+
+
     public function listteacherAction() {
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
+
         $rs = $dbh->query("select * from attend where tid='{$userid}'");
         $attends = $rs->fetchAll();
         $this -> getView() -> assign("attends",$attends);
 
     }
     public function listteachAction() {
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
         $rs = $dbh->query("select * from attend where tid='{$userid}'");
         $attends = $rs->fetchAll();
         $this -> getView() -> assign("attends",$attends);
 
     }
 
-
     public function browseAction() {
-        $userid = Yaf_Session::getInstance()->get("user");
+
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
         $attendid = $_GET['id'];
         if($attendid) {
             $rs = $dbh->query("select * from attend  where aid='{$userid}' and id='{$attendid}'");
@@ -468,11 +506,14 @@ class IndexController extends Yaf_Controller_Abstract
         exit;
     }
     public function changepasswordAction(){
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+
         return true;
     }
     public function dopasswordAction(){
@@ -489,8 +530,8 @@ class IndexController extends Yaf_Controller_Abstract
             echo "<script>alert('密码长度不可以小于6位');window.history.back();</script>";
         }
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}' and password='{$old}'");
-        $user = $rs->fetch();
+        $user = Yaf_Registry::get('user');
+        $userid = $user['tid'];
         if(user){
             $new = md5($new);
             $dbh -> exec("update teacher set password={$new} where tid='{$userid}'");
@@ -502,4 +543,9 @@ class IndexController extends Yaf_Controller_Abstract
             echo "<script>alert('您输入的密码不正确');window.history.back();</script>";exit;
         }
     }
+
+
+
+
+
 }

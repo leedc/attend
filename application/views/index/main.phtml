@@ -95,14 +95,13 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
             </li>
             <li>
-                    <div style="height: 20px">
-                    </div>
+                <div style="height: 20px">
+                </div>
             </li>
-            <li class="start active ">
+            <li class="start  ">
                 <a href="/index.php?a=main">
                     <i class="icon-home"></i>
                     <span class="title">主页</span>
-                    <span class="selected"></span>
                 </a>
             </li>
             <li class="">
@@ -144,90 +143,109 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     <span class="title">教学建议</span>
                 </a>
             </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-th-large"></i>
-                    <span class="title">班级管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            计科111</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            计科112</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            计科113</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-search"></i>
-                    <span class="title">查阅记录</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            按专业查阅</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            按年级查阅</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            按班级查阅</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-bar-chart"></i>
-                    <span class="title">查看统计</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            班级统计</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            教师统计</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            系统抽查</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-cogs"></i>
-                    <span class="title">系统管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#">
-                            账户管理</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            专业管理</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            班级管理</a>
-                    </li>
-                </ul>
-            </li>
+
+            <?php if($pclasses || $class){ ?>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-th-large"></i>
+                        <span class="title">班级管理</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <?php foreach($pclasses as $pclass){ ?>
+                            <li>
+                                <a href="/index.php?c=pioneer&cid=<?php echo $pclass['cid'] ?>">
+                                    <?php echo $pclass['cid'] ?></a>
+                            </li>
+                        <?php } ?>
+                        <?php if($hclass){ ?>
+                            <li>
+                                <a href="/index.php?c=head&cid=<?php echo $hclass['cid'] ?>">
+                                    <?php echo $hclass['cid'] ?></a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </li>
+
+            <?php } ?>
+
+            <?php if($pclasses || $user['isadmin']=='1'){ ?>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-search"></i>
+                        <span class="title">查阅记录</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="/index.php?c=search&a=majorlist">
+                                按专业查阅</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=search&a=gradelist">
+                                按年级查阅</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=search&a=classlist">
+                                按班级查阅</a>
+                        </li>
+                    </ul>
+                </li>
+
+            <?php } ?>
+            <?php if($user['isadmin']=='1'){ ?>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-bar-chart"></i>
+                        <span class="title">查看统计</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="/index.php?c=manage&a=classes">
+                                班级统计</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=teacher">
+                                教师统计</a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                系统抽查</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-cogs"></i>
+                        <span class="title">系统管理</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="/index.php?c=manage&a=mcollege">
+                                学院管理</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=mclassroom">
+                                教室管理</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=mteacher">
+                                教师管理</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=mmajor">
+                                专业管理</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?c=manage&a=mclass">
+                                班级管理</a>
+                        </li>
+                    </ul>
+                </li>
+
+            <?php } ?>
             <li class="last ">
                 <a href="">
                     <i class="icon-edit"></i>
@@ -366,28 +384,28 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             </div>
         </div>
         <?php if($user['isheadtea'] == 1){?>
-        <div class="row">
-            <div class="col-md-12">
-                <!-- BEGIN SAMPLE TABLE PORTLET-->
-                <div class="portlet box red">
-                    <div class="portlet-title">
-                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>班主任所带班级</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN SAMPLE TABLE PORTLET-->
+                    <div class="portlet box red">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-book" style="font-size: 18px"></i>班主任所带班级</div>
 
-                    </div>
-                    <div class="portlet-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr  style="text-align: center">
-                                    <th>班级</th>
-                                    <th>专业</th>
-                                    <th>入学年份</th>
-                                    <th>辅导员</th>
-                                    <th>人数</th>
-                                    <th>查看</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr  style="text-align: center">
+                                        <th>班级</th>
+                                        <th>专业</th>
+                                        <th>入学年份</th>
+                                        <th>辅导员</th>
+                                        <th>人数</th>
+                                        <th>查看</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
                                     <tr>
                                         <td><?php echo $head['cid']; ?></td>
                                         <td><?php echo $head['majorname']; ?></td>
@@ -395,7 +413,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                         <td><?php echo $head['username']; ?></td>
                                         <td><?php echo $head['count']; ?></td>
                                         <td>
-                                            <a href="#">
+                                            <a href="/index.php?c=head&cid=<?php echo $head['cid']; ?>">
                                                 <button type="button" class="btn yellow btn-xs">
                                                     <i class="icon-search"></i>
                                                     <span class="title">查看</span>
@@ -405,15 +423,15 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                         </td>
 
                                     </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- END SAMPLE TABLE PORTLET-->
+                    <!-- END SAMPLE TABLE PORTLET-->
 
+                </div>
             </div>
-        </div>
         <?php } ?>
 
         <?php if($user['ispioneer'] == 1){?>
@@ -440,22 +458,22 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                     <tbody>
                                     <?php foreach($pioneers as $pioneer){?>
 
-                                    <tr>
-                                        <td><?php echo $pioneer['cid']; ?></td>
-                                        <td><?php echo $pioneer['majorname']; ?></td>
-                                        <td><?php echo $pioneer['year']; ?></td>
-                                        <td><?php echo $pioneer['username']; ?></td>
-                                        <td><?php echo $pioneer['count']; ?></td>
-                                        <td>
-                                            <a href="#">
-                                                <button type="button" class="btn yellow btn-xs">
-                                                    <i class="icon-search"></i>
-                                                    <span class="title">查看</span>
-                                                </button>
-                                            </a>
+                                        <tr>
+                                            <td><?php echo $pioneer['cid']; ?></td>
+                                            <td><?php echo $pioneer['majorname']; ?></td>
+                                            <td><?php echo $pioneer['year']; ?></td>
+                                            <td><?php echo $pioneer['username']; ?></td>
+                                            <td><?php echo $pioneer['count']; ?></td>
+                                            <td>
+                                                <a href="/index.php?c=pioneer&cid=<?php echo $pioneer['cid']; ?>">
+                                                    <button type="button" class="btn yellow btn-xs">
+                                                        <i class="icon-search"></i>
+                                                        <span class="title">查看</span>
+                                                    </button>
+                                                </a>
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
                                     <?php }?>
 
                                     </tbody>
@@ -475,7 +493,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN FOOTER -->
 <div class="footer">
     <div class="footer-inner">
-        2013 &copy; Metronic by keenthemes.
+        2015 &copy; 山东建筑大学 计算机科学与技术学院  李志磊
     </div>
     <div class="footer-tools">
          <span class="go-top">

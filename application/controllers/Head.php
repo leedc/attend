@@ -7,11 +7,15 @@ class HeadController extends Yaf_Controller_Abstract {
     }
     public function  indexAction (){
 
-        $userid = Yaf_Session::getInstance()->get("user");
         $dbh = Yaf_Registry::get('_db');
-        $rs = $dbh->query("select * from teacher where tid='{$userid}'");
-        $user = $rs->fetch();
-        $this -> getView() -> assign("user",$user);
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $userid = $user['tid'];
+
         $rs = $dbh->query("select * from class where hid='{$userid}'");
         $class = $rs->fetch();
         $rs = $dbh->query("select * from attend inner join ctoa where ctoa.aid=attend.id and ctoa.cid='{$class['cid']}'");

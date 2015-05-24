@@ -11,8 +11,6 @@ class LoginController extends Yaf_Controller_Abstract {
     }
     //do login and ture to home page
     public function  loginAction (){
-
-
         $req = $this -> getRequest();
         $id = $req -> getPost('username');
         $psw = md5($req -> getPost('password'));
