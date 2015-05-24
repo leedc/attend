@@ -76,6 +76,9 @@ class SearchController extends Yaf_Controller_Abstract
         $this->getView()->assign("hclass", $hclass);
 
         $mid = $_GET['mid'];
+        $rs = $dbh->query("select majorname from major where id={$mid}");
+        $major = $rs->fetch();
+        $this->getView()->assign("major", $major);
         if($mid) {
             $rs = $dbh->query("select aid from ctoa inner join class inner join major where major.id=class.mid and class.cid=ctoa.cid and major.id={$mid} group by aid");
             $attendids = $rs->fetchAll();
@@ -145,6 +148,7 @@ class SearchController extends Yaf_Controller_Abstract
         $this->getView()->assign("pclasses", $pclasses);
         $this->getView()->assign("hclass", $hclass);
         $gid = $_GET['gid'];
+        $this -> getView() -> assign("grade",$gid);
         if($gid) {$rs = $dbh->query("select aid from ctoa inner join class where class.cid=ctoa.cid and class.year='{$gid}' group by aid");
             $attendids = $rs->fetchAll();
             foreach($attendids as $attendid){
@@ -183,10 +187,9 @@ class SearchController extends Yaf_Controller_Abstract
         $this->getView()->assign("user", $user);
         $this->getView()->assign("pclasses", $pclasses);
         $this->getView()->assign("hclass", $hclass);
-
-
         $rs = $dbh->query("select cid,year,majorname,count,pteacher.username as pname,head.username as hname from class inner join major inner join teacher as pteacher inner join teacher as head where major.id=class.mid and class.pid=pteacher.tid and head.tid=class.hid");
         $classes = $rs->fetchAll();
+
         $this -> getView() -> assign("classes",$classes);
         return true;
     }
@@ -202,6 +205,8 @@ class SearchController extends Yaf_Controller_Abstract
 
 
         $cid = $_GET['cid'];
+
+        $this->getView()->assign("class", $cid);
         if($cid) {
             $rs=$dbh->query("select id,time,classname,classroom,tid,attend.aid from attend inner join ctoa where attend.id=ctoa.aid and ctoa.cid='{$cid}' and attend.status=1");
             $attends = $rs->fetchAll();
