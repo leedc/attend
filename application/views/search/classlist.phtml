@@ -65,17 +65,17 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     <i class="icon-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="/index.php?a=main"><i class="icon-user"></i> 个人资料</a></li>
-                    <li><a href="/index.php?a=changepassword"><i class="icon-tasks"></i> 修改密码</a></li>
-                    <li class="divider"></li>
-                    <li><a href="javascript:;" id="trigger_fullscreen"><i class="icon-move"></i> 全屏</a>
-                    </li>
-
-                    <li><a href="/index.php?a=logout"><i class="icon-key"></i> 注销</a>
-                    </li>
-                </ul>
+                    <li><a href="/index.php?a=main"><i class="icon-user"></i> 个人资料</a></li>a></li>
+            <li><a href="/index.php?a=changepassword"><i class="icon-tasks"></i> 修改密码</a></li>
+            <li class="divider"></li>
+            <li><a href="javascript:;" id="trigger_fullscreen"><i class="icon-move"></i> 全屏</a>
             </li>
-            <!-- END USER LOGIN DROPDOWN -->
+
+            <li><a href="/index.php?a=logout"><i class="icon-key"></i> 注销</a>
+            </li>
+        </ul>
+        </li>
+        <!-- END USER LOGIN DROPDOWN -->
         </ul>
         <!-- END TOP NAVIGATION MENU -->
     </div>
@@ -110,11 +110,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     <span class="title">添加记录</span>
                 </a>
             </li>
-            <li class=" active ">
+            <li class="">
                 <a href="javascript:;">
                     <i class="icon-book"></i>
                     <span class="title">查看记录</span>
-                    <span class="selected"></span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
@@ -165,11 +164,12 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     </li>
                 </ul>
             </li>
-            <li class="">
+            <li class=" active ">
                 <a href="javascript:;">
                     <i class="icon-search"></i>
                     <span class="title">查阅记录</span>
                     <span class="arrow "></span>
+                    <span class="selected"></span>
                 </a>
                 <ul class="sub-menu">
                     <li>
@@ -272,10 +272,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <ul class="page-breadcrumb breadcrumb">
                     <li>
                         <i class="icon-home"></i>
-                        <a href="#">教师</a>
+                        <a href="#">查阅记录</a>
                         <i class="icon-angle-right"></i>
                     </li>
-                    <li><a href="#">查看记录</a></li>
+                    <li><a href="#">按专业查阅</a></li>
                     <li class="pull-right">
                         <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
                             <i class="icon-calendar"></i>
@@ -292,75 +292,47 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <!-- BEGIN SAMPLE TABLE PORTLET-->
                 <div class="portlet box red">
                     <div class="portlet-title">
-                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>全部听课记录</div>
+                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>专业</div>
 
                     </div>
                     <div class="portlet-body">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
-                                <tr  style="text-align: center">
-                                    <th>#</th>
-                                    <th>时间</th>
-                                    <th>课程名称</th>
-                                    <th>地点</th>
-                                    <th>授课教师</th>
-                                    <th>上课班级</th>
-                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作</th>
+                                <tr style="text-align: center">
+                                    <th>班级</th>
+                                    <th>年级</th>
+                                    <th>专业</th>
+                                    <th>班主任</th>
+                                    <th>辅导员</th>
+                                    <th>人数</th>
+                                    <th>查看</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
-
-                                    <?php
-                                    $i=1;
-                                    foreach($attends as $attend){ ?>
+                                <?php foreach($classes as $class) { ?>
                                     <tr>
-                                        <td><?php echo $i++; ?></td>
-                                        <td><?php echo $attend['time']; ?></td>
-                                        <td><?php echo $attend['classname']; ?></td>
-                                        <td><?php echo $attend['classroom']; ?></td>
-                                        <td><?php echo $attend['username']; ?></td>
-                                        <td><?php echo $attend['classes']; ?></td>
+                                        <td><?php echo $class['cid'] ?></td>
+                                        <td><?php echo $class['yesr'] ?>级</td>
+                                        <td><?php echo $class['mid'] ?></td>
+
+                                        <th><?php echo $class['hname'] ?></th>
+                                        <th><?php echo $class['pname'] ?></th>
                                         <td>
-                                            <a href="/index.php?c=index&a=browse&id=<?php echo $attend['id']; ?>">
+                                            <a href="/index.php?c=search&a=classbrowse&cid=<?php echo $class['cid'] ?>">
                                                 <button type="button" class="btn yellow btn-xs">
                                                     <i class="icon-search"></i>
                                                     <span class="title">查看</span>
                                                 </button>
                                             </a>
-                                            <?php if($attend['status']=='0'){?>
-                                                <a href="/index.php?c=index&a=addinfo&id=<?php echo $attend['id']; ?>">
-                                                    <button type="button"  class="btn red  btn-xs">
-                                                        <i class="icon-edit"></i>
-                                                        <span class="title">编辑</span>
-                                                    </button>
-                                                </a>
-                                                <a href="/index.php?c=index&a=delattend&id=<?php echo $attend['id']; ?>">
-
-                                                    <button type="button" class="btn dark btn-xs">
-                                                        <i class="icon-trash"></i>
-                                                        <span class="title">删除</span>
-                                                    </button>
-
-                                                </a>
-                                                <?php if($attend['part1']=='1' && $attend['part2']=='1' && $attend['part3']=='1' && $attend['part4']=='1'){?>
-
-                                                    <a href="/index.php?c=index&a=pushttend&id=<?php echo $attend['id']; ?>">
-                                                        <button type="button" class="btn blue btn-xs">
-                                                        <i class="icon-ok"></i>
-                                                        <span class="title">提交</span>
-                                                        </button>
-                                                    </a>
-                                                <?php }?>
-                                            <?php }?>
 
                                         </td>
 
                                     </tr>
-                                    <?php }?>
 
-                                <tr>
+                                <?php } ?>
+
                                 </tbody>
                             </table>
                         </div>

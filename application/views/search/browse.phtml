@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<!--
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.0
+Version: 1.5.2
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+-->
+<!--[if IE 8]>
+<html lang="zh" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]>
+<html lang="zh" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="zh" class="no-js"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8"/>
+    <title>听课数据收集反馈系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <meta name="MobileOptimized" content="320">
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+    <link href="/assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css"/>
+    <!-- END PAGE LEVEL PLUGIN STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <link href="/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/pages/tasks.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+    <link href="/assets/css/custom.css" rel="stylesheet" type="text/css"/>
+    <!-- END THEME STYLES -->
+    <link rel="shortcut icon" href="favicon.ico"/>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<div class="header navbar navbar-inverse navbar-fixed-top">
+    <!-- BEGIN TOP NAVIGATION BAR -->
+    <div class="header-inner">
+        <!-- BEGIN LOGO -->
+        <a class="navbar-brand" href="/index.php?a=main">
+            <span class="img-responsive">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;听课数据收集反馈系统</span>
+        </a>
+        <!-- END LOGO -->
+        <!-- BEGIN TOP NAVIGATION MENU -->
+        <ul class="nav navbar-nav pull-right">
+            <!-- BEGIN USER LOGIN DROPDOWN -->
+            <li class="dropdown user">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                   data-close-others="true">
+                    <span class="username">您好,<?php echo $user['username']; ?>老师!!</span>
+                    <i class="icon-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/index.php?a=main"><i class="icon-user"></i> 个人资料</a></li>
+                    <li><a href="/index.php?a=changepassword"><i class="icon-tasks"></i> 修改密码</a></li>
+                    <li class="divider"></li>
+                    <li><a href="javascript:;" id="trigger_fullscreen"><i class="icon-move"></i> 全屏</a>
+                    </li>
+
+                    <li><a href="/index.php?a=logout"><i class="icon-key"></i> 注销</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- END USER LOGIN DROPDOWN -->
+        </ul>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- END TOP NAVIGATION BAR -->
+</div>
+<!-- END HEADER -->
+<div class="clearfix"></div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar navbar-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <ul class="page-sidebar-menu">
+            <li>
+                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                <div class="sidebar-toggler hidden-phone"></div>
+                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+            </li>
+            <li>
+                <div style="height: 20px">
+                </div>
+            </li>
+            <li class="start ">
+                <a href="/index.php?a=main">
+                    <i class="icon-home"></i>
+                    <span class="title">主页</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="/index.php?a=addinfo">
+                    <i class=" icon-plus-sign"></i>
+                    <span class="title">添加记录</span>
+                </a>
+            </li>
+            <li class=" active">
+                <a href="javascript:;">
+                    <i class="icon-book"></i>
+                    <span class="title">查看记录</span>
+                    <span class="selected"></span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="/index.php?a=listall">
+                            全部记录</a>
+                    </li>
+                    <li>
+                        <a href="/index.php?a=listpush">
+                            已提交</a>
+                    </li>
+                    <li>
+                        <a href="/index.php?a=listnotpush">
+                            未提交</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="">
+                <a href="/index.php?a=listteacher">
+                    <i class=" icon-envelope"></i>
+                    <span class="title">教师评价</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="/index.php?a=listteach">
+                    <i class="  icon-comments"></i>
+                    <span class="title">教学建议</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="javascript:;">
+                    <i class="icon-th-large"></i>
+                    <span class="title">班级管理</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="#">
+                            计科111</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            计科112</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            计科113</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="">
+                <a href="javascript:;">
+                    <i class="icon-search"></i>
+                    <span class="title">查阅记录</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="#">
+                            按专业查阅</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            按年级查阅</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            按班级查阅</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="">
+                <a href="javascript:;">
+                    <i class="icon-bar-chart"></i>
+                    <span class="title">查看统计</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="#">
+                            班级统计</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            教师统计</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            系统抽查</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="">
+                <a href="javascript:;">
+                    <i class="icon-cogs"></i>
+                    <span class="title">系统管理</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="#">
+                            账户管理</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            专业管理</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            班级管理</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="last ">
+                <a href="">
+                    <i class="icon-edit"></i>
+                    <span class="title">用户反馈</span>
+                </a>
+            </li>
+        </ul>
+        <!-- END SIDEBAR MENU -->
+    </div>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+        <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        Widget settings form goes here
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn blue">Save changes</button>
+                        <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+                <ul class="page-breadcrumb breadcrumb">
+                    <li>
+                        <i class="icon-home"></i>
+                        <a href="#">教师</a>
+                        <i class="icon-angle-right"></i>
+                    </li>
+                    <li><a href="#">查看记录</a></li>
+                    <li class="pull-right">
+                        <div id="dashboard-report-range" class="dashboard-date-range tooltips">
+                            <i class="icon-calendar"></i>
+                            <span><?php echo date('Y年m月d日 ', time());
+                                $weeks = array('周日', '周一', '周二', '周三', '周四', '周五', '周六');
+                                echo $weeks[date('w', time()) + 0]; ?></span>
+                        </div>
+                    </li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable tabbable-custom boxless">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_3">
+                            <div class="portlet box blue">
+                                <div class="portlet-title">
+                                    <div class="caption"><i class="icon-reorder"></i>查看记录</div>
+
+                                </div>
+                                <div class="portlet-body form">
+                                    <!-- BEGIN FORM-->
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-body">
+                                            <h2 class="margin-bottom-20"> <?php echo $attend['classname']; ?> </h2>
+
+                                            <h3 class="form-section">课程信息</h3>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">时间:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $attend['time']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">节次:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php $c = array("1-2节", "3-4节", "5-6节", "7-8节", "9-10节");
+                                                                echo $c[$attend['sector'] - 1];; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <!--/row-->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">班级:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $attend['classes']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">教室:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $attend['classroom']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">教师:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $teacher['username']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">学院:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $attend['college']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <h3 class="form-section">听课情况</h3>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">迟到时间:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $attend['latetime']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">早退时间:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $attend['earlytime']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">学生缺勤人数:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $attend['stunum'] - $attend['comenum'] + 0; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">学生迟到人数:</label>
+
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"><?php echo $attend['latenum']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group ">
+                                                        <label class="control-label col-md-2">其他违纪情况:</label>
+
+                                                        <div class="col-md-8">
+                                                            <textarea name="suggesteach" disabled class="form-control"
+                                                                      rows="3"><?php echo $attend['other']; ?></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <h3 class="form-section">教师课堂评价指标</h3>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">1.讲课有热情,精神饱满:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess1']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label
+                                                            class="control-label col-md-4">2.讲课由感染力,能吸引学生的注意力:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess2']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">3.对问题的阐述深入浅出,有启发性:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess3']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label
+                                                            class="control-label col-md-4">4.对问题的阐述简练准确,中带泥土书,思路清晰:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess4']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">5.对课程内容娴熟,运用自如:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess5']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">6.讲课内容充实,信息量大:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess6']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">7.教学内容能反映或联系学科发展的新思想,性爱年,新成果:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess7']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label
+                                                            class="control-label col-md-4">8.能给予学生思考,联想,创造的启迪:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess8']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">9.能调动学生情绪,课堂气氛活跃:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess9']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">10.能有效地利用教学媒体:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess10']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">总评价等级:</label>
+
+                                                        <div class="col-md-8">
+                                                            <p class="form-control-static"><?php echo $attend['assess']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <h3 class="form-section">建议评价</h3>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group ">
+                                                        <label class="control-label col-md-2">对学生听课情况评价:</label>
+
+                                                        <div class="col-md-8">
+                                                            <textarea name="suggesteach" disabled class="form-control"
+                                                                      rows="3"><?php echo $attend['suggeststudent']; ?></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group ">
+                                                        <label class="control-label col-md-2">对教师教学情况评价:</label>
+
+                                                        <div class="col-md-8">
+                                                            <textarea name="suggesteach" disabled class="form-control"
+                                                                      rows="3"><?php echo $attend['suggestteacher']; ?></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group ">
+                                                        <label class="control-label col-md-2">对教学的建议:</label>
+
+                                                        <div class="col-md-8">
+                                                            <textarea name="suggesteach" disabled class="form-control"
+                                                                      rows="3"><?php echo $attend['suggesteach']; ?></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <h3 class="form-section">附件</h3>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group ">
+                                                        <label class="control-label col-md-2">课堂照片:</label>
+
+                                                        <div class="col-md-8">
+                                                            <?php if ($attend['photo']) { ?>
+                                                                <img width="500"
+                                                                     src="<?php echo '/' . $attend['photo']; ?>">
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group ">
+                                                            <label class="control-label col-md-2">授课内容记录:</label>
+
+                                                            <div class="col-md-8">
+                                                                <?php if ($attend['note']) { ?>
+                                                                    <img width="500"
+                                                                         src="<?php echo '/' . $attend['note']; ?>">
+                                                                <?php } ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-actions fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="col-md-offset-3 col-md-9">
+                                                                <?php if ($attend['status'] == '0') { ?>
+                                                                    <a href="/index.php?c=index&a=addinfo&id=<?php echo $attend['id']; ?>">
+                                                                        <button type="button" class="btn red ">
+                                                                            <i class="icon-edit"></i>
+                                                                            <span class="title">编辑</span>
+                                                                        </button>
+                                                                    </a>
+                                                                    <?php if ($attend['part1'] == '1' && $attend['part2'] == '1' && $attend['part3'] == '1' && $attend['part4'] == '1') { ?>
+
+                                                                        <a href="/index.php?c=index&a=pushttend&id=<?php echo $attend['id']; ?>">
+                                                                            <button type="button" class="btn blue ">
+                                                                                <i class="icon-ok"></i>
+                                                                                <span class="title">提交</span>
+                                                                            </button>
+                                                                        </a>
+                                                                    <?php } ?>
+
+                                                                <?php } ?>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    </form>
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="footer">
+    <div class="footer-inner">
+        2013 &copy; Metronic by keenthemes.
+    </div>
+    <div class="footer-tools">
+         <span class="go-top">
+         <i class="icon-angle-up"></i>
+         </span>
+    </div>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="/assets/plugins/respond.min.js"></script>
+<script src="/assets/plugins/excanvas.min.js"></script>
+<![endif]-->
+<script src="/assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="/assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js"
+        type="text/javascript"></script>
+<script src="/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery.cookie.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="/assets/plugins/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script>
+<script src="/assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script>
+<script src="/assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script>
+<script src="/assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js" type="text/javascript"></script>
+<script src="/assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" type="text/javascript"></script>
+<script src="/assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
+<script src="/assets/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
+<script src="/assets/plugins/flot/jquery.flot.js" type="text/javascript"></script>
+<script src="/assets/plugins/flot/jquery.flot.resize.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
+<script src="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="/assets/scripts/app.js" type="text/javascript"></script>
+<script src="/assets/scripts/index.js" type="text/javascript"></script>
+<script src="/assets/scripts/tasks.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<script>
+    jQuery(document).ready(function () {
+        App.init(); // initlayout and core plugins
+        Index.init();
+        Index.initJQVMAP(); // init index page's custom scripts
+        Index.initCalendar(); // init index page's custom scripts
+        Index.initCharts(); // init index page's custom scripts
+        Index.initChat();
+        Index.initMiniCharts();
+        Index.initDashboardDaterange();
+        Index.initIntro();
+        Tasks.initDashboardWidget();
+    });
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

@@ -292,7 +292,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <!-- BEGIN SAMPLE TABLE PORTLET-->
                 <div class="portlet box red">
                     <div class="portlet-title">
-                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>班主任所带班级</div>
+                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>专业</div>
 
                     </div>
                     <div class="portlet-body">
@@ -300,32 +300,33 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                             <table class="table">
                                 <thead>
                                 <tr style="text-align: center">
-                                    <th>班级</th>
                                     <th>专业</th>
-                                    <th>入学年份</th>
-                                    <th>辅导员</th>
+                                    <th>班级</th>
                                     <th>人数</th>
                                     <th>查看</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>计科111</td>
-                                    <td>计算机科学与技术</td>
-                                    <td>2011</td>
-                                    <td>李晓峰</td>
-                                    <td>34</td>
-                                    <td>
-                                        <a href="#">
-                                            <button type="button" class="btn yellow btn-xs">
-                                                <i class="icon-search"></i>
-                                                <span class="title">查看</span>
-                                            </button>
-                                        </a>
 
-                                    </td>
+                                <?php foreach($majors as $major) { ?>
+                                    <tr>
+                                        <td><?php echo $major['majorname'] ?></td>
+                                        <td><?php echo $major['class'] ?></td>
+                                        <td><?php echo $major['num'] ?></td>
+                                        <td>
+                                            <a href="/index.php?c=search&a=majorbrowse&mid=<?php echo $major['id'] ?>">
+                                                <button type="button" class="btn yellow btn-xs">
+                                                    <i class="icon-search"></i>
+                                                    <span class="title">查看</span>
+                                                </button>
+                                            </a>
 
-                                </tr>
+                                        </td>
+
+                                    </tr>
+
+                                <?php } ?>
+
                                 </tbody>
                             </table>
                         </div>
