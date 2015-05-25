@@ -305,7 +305,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                         <a href="#">管理员</a>
                         <i class="icon-angle-right"></i>
                     </li>
-                    <li><a href="#">学院管理</a></li>
+                    <li><a href="#">班级管理</a></li>
                     <li class="pull-right">
                         <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
                             <i class="icon-calendar"></i>
@@ -322,10 +322,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <!-- BEGIN SAMPLE TABLE PORTLET-->
                 <div class="portlet box red">
                     <div class="portlet-title">
-                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>学院管理</div>
+                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>班级管理</div>
                         <div class="tools">
 
-                            <a href="/index.php?c=manage&a=maddcollege">
+                            <a href="/index.php?c=manage&a=maddclass">
 
                                 <button type="button" class="btn yellow btn-xs">
                                     <i class="icon-trash"></i>
@@ -341,7 +341,12 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                 <thead>
                                 <tr  style="text-align: center">
                                     <th>#</th>
-                                    <th>学院名称</th>
+                                    <th>班级</th>
+                                    <th>专业</th>
+                                    <th>入学年份</th>
+                                    <th>班主任</th>
+                                    <th>辅导员</th>
+                                    <th>人数</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -350,12 +355,26 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
                                 <?php
                                 $i=1;
-                                foreach($collagees as $collage){ ?>
+                                foreach($classes as $class){ ?>
                                     <tr>
                                         <td><?php echo $i++; ?></td>
-                                        <td><?php echo $collage['name']; ?></td>
+                                        <td><?php echo $class['cid']; ?></td>
+                                        <td><?php echo $class['majorname']; ?></td>
+                                        <td><?php echo $class['year']; ?>年</td>
+                                        <td><?php echo $class['hteacher']; ?></td>
+                                        <td><?php echo $class['username']; ?></td>
+                                        <td><?php echo $class['count']; ?></td>
+
                                         <td>
-                                            <a href="/index.php?c=manage&a=mdelcollege&id=<?php echo $collage['id'];; ?>">
+                                            <a href="/index.php?c=manage&a=meditclass&cid=<?php echo $class['cid'];; ?>">
+
+                                                <button type="button" class="btn blue btn-xs">
+                                                    <i class="icon-trash"></i>
+                                                    <span class="title">编辑</span>
+                                                </button>
+
+                                            </a>
+                                            <a href="/index.php?c=manage&a=mdelclass&cid=<?php echo $class['cid'];; ?>">
 
                                                 <button type="button" class="btn dark btn-xs">
                                                     <i class="icon-trash"></i>

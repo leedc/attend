@@ -305,7 +305,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                         <a href="#">管理员</a>
                         <i class="icon-angle-right"></i>
                     </li>
-                    <li><a href="#">编辑教师</a></li>
+                    <li><a href="#">编辑班级</a></li>
                     <li class="pull-right">
                         <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
                             <i class="icon-calendar"></i>
@@ -324,47 +324,85 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                         <div class="tab-pane active" id="tab_0">
                             <div class="portlet box green">
                                 <div class="portlet-title">
-                                    <div class="caption"><i class="icon-reorder"></i>编辑教师</div>
+                                    <div class="caption"><i class="icon-reorder"></i>编辑班级</div>
                                 </div>
                                 <div class="portlet-body form">
                                     <!-- BEGIN FORM-->
-                                    <form action="/index.php?c=manage&a=mdoeditteacher" method="post" class="form-horizontal">
+                                    <form action="/index.php?c=manage&a=mdoeditclass" method="post" class="form-horizontal">
                                         <div class="form-body">
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">学工号</label>
+                                                <label class="col-md-3 control-label">班级</label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input class="form-control" placeholder="学工号" name="tid" type="number" readonly value="<?php echo $teacher['tid']; ?>">
-                                                        <span class="input-group-addon"><i class="icon-user"></i></span>
+                                                        <input class="form-control" placeholder="班级" name="cid" type="text" required="" readonly value="<?php echo $class['cid']; ?>">
+                                                        <span class="input-group-addon"> </span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-body">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">姓名</label>
-                                                <div class="col-md-4">
-                                                    <div class="input-group">
-                                                        <input class="form-control" placeholder="姓名" name="name" type="text" required="" value="<?php echo $teacher['username']; ?>">
-                                                        <span class="input-group-addon"><i class="icon-user"></i></span>
-                                                    </div>
-                                                </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">专业</label>
+                                            <div class="col-md-4">
+                                                <select name="mid" required="" class="form-control form-control-inline ">
+                                                    <?php foreach($majors as $major){ ?> 
+                                                    <option value="<?php echo $major['id'];?>" <?php if($major['id']==$class['mid']) echo selected?>><?php echo $major['majorname'];?></option>
+                                                    <?php } ?>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-body">
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">邮箱</label>
+                                                <label class="col-md-3 control-label">入学年份</label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input class="form-control" placeholder="邮箱" name="email" type="email" value="<?php echo $teacher['email']; ?>">
-                                                        <span class="input-group-addon"><i class="icon-user"></i></span>
+                                                        <input class="form-control" placeholder="入学年份" name="year" type="number" required="" value="<?php echo $class['year']; ?>">
+                                                        <span class="input-group-addon"> </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">班主任</label>
+                                            <div class="col-md-4">
+                                                <select name="hid" required="" class="form-control form-control-inline ">
+                                                    <?php foreach($teachers as $teacher){ ?> 
+
+                                                    <?php if($teacher['isheadtea']=='0' || $teacher['tid']==$class['hid']){ ?>
+                                                    <option value="<?php echo $teacher['tid'];?>" <?php if($teacher['tid']==$class['hid']) echo selected?>><?php echo $teacher['username'];?></option>
+                                                    <?php } ?>
+
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">辅导员</label>
+                                            <div class="col-md-4">
+                                                <select name="pid" required="" class="form-control form-control-inline ">
+                                                    <?php foreach($teachers as $teacher){ ?> 
+
+                                                    <?php if($teacher['ispioneer']=='1'){ ?> 
+                                                    <option value="<?php echo $teacher['tid'];?>" <?php if($teacher['tid']==$class['pid']) echo selected?>><?php echo $teacher['username'];?></option>
+                                                    <?php } ?>
+
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">人数</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input class="form-control" placeholder="人数" name="count" type="number" required="" value="<?php echo $class['count']; ?>">
+                                                        <span class="input-group-addon"> </i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-actions fluid">
                                             <div class="col-md-offset-3 col-md-9">
-                                                <a href="/index.php?c=manage&a=mdoeditteacher">
+                                                <a href="/index.php?c=manage&a=medoditclass">
                                                     <button type="submit"  class="btn red ">
                                                         <i class="icon-edit"></i>
                                                         <span class="title">修改</span>

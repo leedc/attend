@@ -356,7 +356,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                         <td><?php echo $teacher['username']; ?></td>
                                         <td><?php echo $teacher['email']; ?></td>
                                         <td><?php echo $teacher['hclass']; ?></td>
-                                        <td><?php echo $teacher['isheadtea']=='1'?"<a href=\"index.php?c=manage&a=mhead&tid={$teacher['tid']}\"  title='取消督导员'>是</a>":"<a href=\"index.php?c=manage&a=mhead&tid={$teacher['tid']}\"  title='设置督导员'>否</a>"; ?></td>
+                                        <td><?php echo $teacher['ispioneer']=='1'?"<a href=\"index.php?c=manage&a=mpioneer&tid={$teacher['tid']}\"  title='取消督导员'>是</a>":"<a href=\"index.php?c=manage&a=mpioneer&tid={$teacher['tid']}\"  title='设置督导员'>否</a>"; ?></td>
                                         <td><?php echo $teacher['issupervisor']=='1'?"<a href=\"index.php?c=manage&a=msuper&tid={$teacher['tid']}\"  title='取消督导员'>是</a>":"<a href=\"index.php?c=manage&a=msuper&tid={$teacher['tid']}\"  title='设置督导员'>否</a>"; ?></td>
                                         <td><?php echo $teacher['isadmin']=='1'?"<a href=\"index.php?c=manage&a=madmin&tid={$teacher['tid']}\"  title='取消管理员'>是</a>":"<a href=\"index.php?c=manage&a=madmin&tid={$teacher['tid']}\"  title='设置管理员'>否</a>";; ?></td>
                                         <td>

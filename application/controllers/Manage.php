@@ -185,14 +185,14 @@ class ManageController extends Yaf_Controller_Abstract {
 
         echo "<script>window.location.assign(\"/index.php?c=manage&a=mteacher\");</script>";exit;
     }
-    public function mheadAction(){
+    public function mpioneerAction(){
         $dbh = Yaf_Registry::get('_db');
         $tid=$_GET['tid'];
         $rs = $dbh->query("select * from teacher  where tid='{$tid}'");
         $teacher = $rs->fetch();
         if($teacher){
-            $val = $teacher['isheadtea']=='1'?0:1;
-            $dbh->exec("update teacher set isheadtea={$val} where tid='{$tid}'");
+            $val = $teacher['ispioneer']=='1'?0:1;
+            $dbh->exec("update teacher set ispioneer={$val} where tid='{$tid}'");
         }
 
 
@@ -284,11 +284,105 @@ class ManageController extends Yaf_Controller_Abstract {
         $this->getView()->assign("pclasses", $pclasses);
         $this->getView()->assign("hclass", $hclass);
 
-
-        $tid = $_GET['tid'];
-        $rs = $dbh->query("select * from teacher  where tid='{$tid}'");
-        $teacher = $rs->fetch();
-        $this->getView()->assign("teacher", $teacher);
+        $rs = $dbh->query("select * from class inner join major inner join teacher where major.id=class.mid and class.pid=teacher.tid ");
+        $classes = $rs->fetchAll();
+        $i=0;
+        foreach($classes as $class){
+            $rs = $dbh->query("select username from teacher where tid='{$class['hid']}'");
+            $name = $rs->fetch();
+            $class['hteacher']=$name['username'];
+            $classes[$i]=$class;$i++;
+        }
+        $this->getView()->assign("classes", $classes);
         return true;
     }
+    public function maddclassAction(){
+        $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $rs = $dbh->query("select * from major ");
+        $majors=$rs->fetchAll();
+        $rs = $dbh->query("select * from teacher ");
+        $teacher=$rs->fetchAll();
+        $this->getView()->assign("teachers", $teacher);
+        $this->getView()->assign("majors", $majors);
+    }
+    public function mdoclassAction(){
+        $dbh = Yaf_Registry::get('_db');
+        $req = $this -> getRequest();
+        $cid = $req -> getPost('cid');
+        $mid = $req -> getPost('mid');
+        $hid = $req -> getPost('hid');
+        $pid = $req -> getPost('pid');
+        $year = $req -> getPost('year');
+        $count = $req -> getPost('count');
+
+        $rs = $dbh->query("select * from class  where cid='{$cid}'");
+        $class = $rs->fetch();
+        if($class){
+            echo "<script>alert('班级已存在');window.history.back();</script>";exit;
+        }
+        $dbh->exec("insert into class(cid,hid,pid,mid,year,count) value('{$cid}','{$hid}','{$pid}',{$mid},{$year},{$count})");
+        $dbh->exec("update teacher set isheadtea=1 where tid='{$hid}'");
+
+        echo "<script>window.location.assign(\"/index.php?c=manage&a=mclass\");</script>";exit;
+    }
+    public function mdelclassAction(){
+        $dbh = Yaf_Registry::get('_db');
+        $cid = $_GET['cid'];
+        $rs = $dbh->query("select * from class  where cid='{$cid}'");
+        $class = $rs->fetch();
+        $dbh->exec("delete from class where cid='{$cid}'");
+        $dbh->exec("update teacher set isheadtea=0 where tid='{$class['hid']}'");
+        echo "<script>window.location.assign(\"/index.php?c=manage&a=mclass\");</script>";exit;
+    }
+    public function meditclassAction(){
+
+
+        $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $rs = $dbh->query("select * from major ");
+        $majors=$rs->fetchAll();
+        $rs = $dbh->query("select * from teacher ");
+        $teacher=$rs->fetchAll();
+        $this->getView()->assign("teachers", $teacher);
+        $this->getView()->assign("majors", $majors);
+
+        $cid = $_GET['cid'];
+        $rs = $dbh->query("select * from class  where cid='{$cid}'");
+        $class = $rs->fetch();
+        if($class){
+            $this->getView()->assign("class", $class);
+        }else{
+            echo "<script>window.location.assign(\"/index.php?c=manage&a=mclass\");</script>";exit;
+        }
+    }
+    public function mdoeditclassAction(){
+
+        $dbh = Yaf_Registry::get('_db');
+        $req = $this -> getRequest();
+        $cid = $req -> getPost('cid');
+        $mid = $req -> getPost('mid');
+        $hid = $req -> getPost('hid');
+        $pid = $req -> getPost('pid');
+        $year = $req -> getPost('year');
+        $count = $req -> getPost('count');
+        $rs = $dbh->query("select * from class  where cid='{$cid}'");
+        $class = $rs->fetch();
+        $dbh->exec("update class set hid='{$hid}',pid='{$pid}',mid={$mid},year={$year},count={$count} where cid='{$cid}'");
+        $dbh->exec("update teacher set isheadtea=0 where tid='{$class['hid']}'");
+        $dbh->exec("update teacher set isheadtea=1 where tid='{$hid}'");
+        echo "<script>window.location.assign(\"/index.php?c=manage&a=mclass\");</script>";exit;
+
+    }
+
 }
