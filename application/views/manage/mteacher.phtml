@@ -326,7 +326,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                         <div class="tools">
                             <a href="/index.php?c=manage&a=maddteacher">
                                 <button type="button" class="btn yellow btn-xs">
-                                    <i class="icon-trash"></i>
+                                    <i class="icon-plus"></i>
                                     <span class="title">添加</span>
                                 </button>
                             </a>
@@ -360,19 +360,20 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                         <td><?php echo $teacher['issupervisor']=='1'?"<a href=\"index.php?c=manage&a=msuper&tid={$teacher['tid']}\"  title='取消督导员'>是</a>":"<a href=\"index.php?c=manage&a=msuper&tid={$teacher['tid']}\"  title='设置督导员'>否</a>"; ?></td>
                                         <td><?php echo $teacher['isadmin']=='1'?"<a href=\"index.php?c=manage&a=madmin&tid={$teacher['tid']}\"  title='取消管理员'>是</a>":"<a href=\"index.php?c=manage&a=madmin&tid={$teacher['tid']}\"  title='设置管理员'>否</a>";; ?></td>
                                         <td>
-                                            <a href="/index.php?c=manage&a=resetpwd&tid=<?php echo $teacher['tid'];; ?>">
 
-                                                <button type="button" class="btn red btn-xs">
-                                                    <i class="icon-trash"></i>
-                                                    <span class="title">重置密码</span>
-                                                </button>
-
-                                            </a>
                                             <a href="/index.php?c=manage&a=meditteacher&tid=<?php echo $teacher['tid'];; ?>">
 
                                                 <button type="button" class="btn blue btn-xs">
-                                                    <i class="icon-trash"></i>
+                                                    <i class="icon-edit"></i>
                                                     <span class="title">编辑</span>
+                                                </button>
+
+                                            </a>
+                                            <a href="/index.php?c=manage&a=resetpwd&tid=<?php echo $teacher['tid'];; ?>">
+
+                                                <button type="button" class="btn red btn-xs">
+                                                    <i class="icon-refresh"></i>
+                                                    <span class="title">重置密码</span>
                                                 </button>
 
                                             </a>

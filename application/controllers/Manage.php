@@ -193,6 +193,10 @@ class ManageController extends Yaf_Controller_Abstract {
         if($teacher){
             $val = $teacher['ispioneer']=='1'?0:1;
             $dbh->exec("update teacher set ispioneer={$val} where tid='{$tid}'");
+            if($teacher['ispioneer']=='1'){
+                $dbh->exec("update class set pid='' where pid='{$tid}'");
+            }
+
         }
 
 
@@ -284,13 +288,16 @@ class ManageController extends Yaf_Controller_Abstract {
         $this->getView()->assign("pclasses", $pclasses);
         $this->getView()->assign("hclass", $hclass);
 
-        $rs = $dbh->query("select * from class inner join major inner join teacher where major.id=class.mid and class.pid=teacher.tid ");
+        $rs = $dbh->query("select * from class inner join major where major.id=class.mid   ");
         $classes = $rs->fetchAll();
         $i=0;
         foreach($classes as $class){
             $rs = $dbh->query("select username from teacher where tid='{$class['hid']}'");
             $name = $rs->fetch();
             $class['hteacher']=$name['username'];
+            $rs = $dbh->query("select username from teacher where tid='{$class['pid']}'");
+            $name = $rs->fetch();
+            $class['pteacher']=$name['username'];
             $classes[$i]=$class;$i++;
         }
         $this->getView()->assign("classes", $classes);
