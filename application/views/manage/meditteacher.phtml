@@ -51,7 +51,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
     <!-- BEGIN TOP NAVIGATION BAR -->
     <div class="header-inner">
         <!-- BEGIN LOGO -->
-        <a class="navbar-brand" href="/index.php?a=person">
+        <a class="navbar-brand" href="/index.php">
             <span class="img-responsive">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;听课数据收集反馈系统</span>
         </a>
         <!-- END LOGO -->
@@ -302,17 +302,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <ul class="page-breadcrumb breadcrumb">
                     <li>
                         <i class="icon-home"></i>
-                        <a href="#">辅导员</a>
+                        <a href="#">管理员</a>
                         <i class="icon-angle-right"></i>
                     </li>
-                    <li>
-                        <a href="#">班级管理</a>
-                        <i class="icon-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">计科112</a>
-                    </li>
-
+                    <li><a href="#">添加教师</a></li>
                     <li class="pull-right">
                         <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
                             <i class="icon-calendar"></i>
@@ -326,53 +319,69 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
         <!-- END PAGE HEADER-->
         <div class="row">
             <div class="col-md-12">
-                <!-- BEGIN ACCORDION PORTLET-->
-                <div class="portlet box yellow">
-                    <div class="portlet-title">
-                        <div class="caption"><i class="icon-reorder"></i><?php echo $attends[0]['cid']?>听课记录</div>
-                        <div class="tools">
-                            <a href="javascript:;" class="collapse"></a>
-                            <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                            <a href="javascript:;" class="reload"></a>
-                            <a href="javascript:;" class="remove"></a>
-                        </div>
-                    </div>
-                    <div class="portlet-body">
-                        <div class="panel-group accordion scrollable" id="accordion2">
-                            <?php  if(!$attends) {echo "<script>alert('没听听课记录')";}?>
-                            <?php  $i=1;foreach($attends as $attend) {?>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse_2_<?php echo $i;?>">
-                                                <?php echo $attend['classname']; ?>
-                                                &nbsp;&nbsp;&nbsp;
-                                                <span style="font-size: 14px"><b>(</b>
-                                                    <?php
-                                                        echo $attend['time'];
-                                                        echo '&nbsp;&nbsp;&nbsp;';
-                                                        $c= array("1-2节","3-4节","5-6节","7-8节","9-10节");
-                                                        echo $c[$attend['sector']-1];
-
-                                                    ?><b>)</b></span>
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div style="height: 0px;" id="collapse_2_<?php echo $i++;?>" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <p>
-                                                应到学生人数:<?php echo $attend['stunum']?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                缺勤人数: <?php echo $attend['comenum']?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                迟到人数:<?php echo $attend['latenum']?>
-                                            </p>
-                                            <p>
-                                                <?php echo $attend['suggeststudent']?>
-                                            </p>
-                                        </div>
-                                    </div>
+                <div class="tabbable tabbable-custom boxless">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_0">
+                            <div class="portlet box green">
+                                <div class="portlet-title">
+                                    <div class="caption"><i class="icon-reorder"></i>添加教师</div>
                                 </div>
-
-                            <?php } ?>
+                                <div class="portlet-body form">
+                                    <!-- BEGIN FORM-->
+                                    <form action="/index.php?c=manage&a=mdoeditteacher" method="post" class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">学工号</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input class="form-control" placeholder="学工号" name="tid" type="number" readonly value="<?php echo $teacher['tid']; ?>">
+                                                        <span class="input-group-addon"><i class="icon-user"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">姓名</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input class="form-control" placeholder="姓名" name="name" type="text" required="" value="<?php echo $teacher['username']; ?>">
+                                                        <span class="input-group-addon"><i class="icon-user"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">邮箱</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input class="form-control" placeholder="邮箱" name="email" type="email" value="<?php echo $teacher['email']; ?>">
+                                                        <span class="input-group-addon"><i class="icon-user"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-actions fluid">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <a href="/index.php?c=manage&a=mdoeditteacher">
+                                                    <button type="submit"  class="btn red ">
+                                                        <i class="icon-edit"></i>
+                                                        <span class="title">添加</span>
+                                                    </button>
+                                                </a>
+                                                <a href="/index.php">
+                                                    <button type="button"  class="btn red ">
+                                                        <i class="icon-edit"></i>
+                                                        <span class="title">取消</span>
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

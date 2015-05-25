@@ -51,7 +51,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
     <!-- BEGIN TOP NAVIGATION BAR -->
     <div class="header-inner">
         <!-- BEGIN LOGO -->
-        <a class="navbar-brand" href="/index.php?a=person">
+        <a class="navbar-brand" href="/index.php">
             <span class="img-responsive">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;听课数据收集反馈系统</span>
         </a>
         <!-- END LOGO -->
@@ -302,17 +302,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <ul class="page-breadcrumb breadcrumb">
                     <li>
                         <i class="icon-home"></i>
-                        <a href="#">辅导员</a>
+                        <a href="#">教师</a>
                         <i class="icon-angle-right"></i>
                     </li>
-                    <li>
-                        <a href="#">班级管理</a>
-                        <i class="icon-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">计科112</a>
-                    </li>
-
+                    <li><a href="#">主页</a></li>
                     <li class="pull-right">
                         <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
                             <i class="icon-calendar"></i>
@@ -324,60 +317,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             </div>
         </div>
         <!-- END PAGE HEADER-->
-        <div class="row">
-            <div class="col-md-12">
-                <!-- BEGIN ACCORDION PORTLET-->
-                <div class="portlet box yellow">
-                    <div class="portlet-title">
-                        <div class="caption"><i class="icon-reorder"></i><?php echo $attends[0]['cid']?>听课记录</div>
-                        <div class="tools">
-                            <a href="javascript:;" class="collapse"></a>
-                            <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                            <a href="javascript:;" class="reload"></a>
-                            <a href="javascript:;" class="remove"></a>
-                        </div>
-                    </div>
-                    <div class="portlet-body">
-                        <div class="panel-group accordion scrollable" id="accordion2">
-                            <?php  if(!$attends) {echo "<script>alert('没听听课记录')";}?>
-                            <?php  $i=1;foreach($attends as $attend) {?>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse_2_<?php echo $i;?>">
-                                                <?php echo $attend['classname']; ?>
-                                                &nbsp;&nbsp;&nbsp;
-                                                <span style="font-size: 14px"><b>(</b>
-                                                    <?php
-                                                        echo $attend['time'];
-                                                        echo '&nbsp;&nbsp;&nbsp;';
-                                                        $c= array("1-2节","3-4节","5-6节","7-8节","9-10节");
-                                                        echo $c[$attend['sector']-1];
 
-                                                    ?><b>)</b></span>
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div style="height: 0px;" id="collapse_2_<?php echo $i++;?>" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <p>
-                                                应到学生人数:<?php echo $attend['stunum']?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                缺勤人数: <?php echo $attend['comenum']?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                迟到人数:<?php echo $attend['latenum']?>
-                                            </p>
-                                            <p>
-                                                <?php echo $attend['suggeststudent']?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <!-- END PAGE -->
 </div>
@@ -385,7 +325,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN FOOTER -->
 <div class="footer">
     <div class="footer-inner">
-        2013 &copy; Metronic by keenthemes.
+        2015 &copy; 山东建筑大学 计算机科学与技术学院  李志磊
     </div>
     <div class="footer-tools">
          <span class="go-top">

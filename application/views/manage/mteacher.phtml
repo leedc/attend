@@ -51,7 +51,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
     <!-- BEGIN TOP NAVIGATION BAR -->
     <div class="header-inner">
         <!-- BEGIN LOGO -->
-        <a class="navbar-brand" href="/index.php?a=person">
+        <a class="navbar-brand" href="/index.php">
             <span class="img-responsive">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;听课数据收集反馈系统</span>
         </a>
         <!-- END LOGO -->
@@ -302,17 +302,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <ul class="page-breadcrumb breadcrumb">
                     <li>
                         <i class="icon-home"></i>
-                        <a href="#">辅导员</a>
+                        <a href="#">管理员</a>
                         <i class="icon-angle-right"></i>
                     </li>
-                    <li>
-                        <a href="#">班级管理</a>
-                        <i class="icon-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">计科112</a>
-                    </li>
-
+                    <li><a href="#">教师管理</a></li>
                     <li class="pull-right">
                         <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
                             <i class="icon-calendar"></i>
@@ -326,58 +319,80 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
         <!-- END PAGE HEADER-->
         <div class="row">
             <div class="col-md-12">
-                <!-- BEGIN ACCORDION PORTLET-->
-                <div class="portlet box yellow">
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
+                <div class="portlet box red">
                     <div class="portlet-title">
-                        <div class="caption"><i class="icon-reorder"></i><?php echo $attends[0]['cid']?>听课记录</div>
+                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>教师管理</div>
                         <div class="tools">
-                            <a href="javascript:;" class="collapse"></a>
-                            <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                            <a href="javascript:;" class="reload"></a>
-                            <a href="javascript:;" class="remove"></a>
+                            <a href="/index.php?c=manage&a=maddteacher">
+                                <button type="button" class="btn yellow btn-xs">
+                                    <i class="icon-trash"></i>
+                                    <span class="title">添加</span>
+                                </button>
+                            </a>
                         </div>
                     </div>
                     <div class="portlet-body">
-                        <div class="panel-group accordion scrollable" id="accordion2">
-                            <?php  if(!$attends) {echo "<script>alert('没听听课记录')";}?>
-                            <?php  $i=1;foreach($attends as $attend) {?>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse_2_<?php echo $i;?>">
-                                                <?php echo $attend['classname']; ?>
-                                                &nbsp;&nbsp;&nbsp;
-                                                <span style="font-size: 14px"><b>(</b>
-                                                    <?php
-                                                        echo $attend['time'];
-                                                        echo '&nbsp;&nbsp;&nbsp;';
-                                                        $c= array("1-2节","3-4节","5-6节","7-8节","9-10节");
-                                                        echo $c[$attend['sector']-1];
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr  style="text-align: center">
+                                    <th>学工号</th>
+                                    <th>姓名</th>
+                                    <th>邮箱</th>
+                                    <th>班主任</th>
+                                    <th>辅导员</th>
+                                    <th>督导员</th>
+                                    <th>管理员</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
 
-                                                    ?><b>)</b></span>
+
+                                <?php foreach($teachers as $teacher){ ?>
+                                    <tr>
+                                        <td><?php echo $teacher['tid']; ?></td>
+                                        <td><?php echo $teacher['username']; ?></td>
+                                        <td><?php echo $teacher['email']; ?></td>
+                                        <td><?php echo $teacher['hclass']; ?></td>
+                                        <td><?php echo $teacher['isheadtea']=='1'?"<a href=\"index.php?c=manage&a=mhead&tid={$teacher['tid']}\"  title='取消督导员'>是</a>":"<a href=\"index.php?c=manage&a=mhead&tid={$teacher['tid']}\"  title='设置督导员'>否</a>"; ?></td>
+                                        <td><?php echo $teacher['issupervisor']=='1'?"<a href=\"index.php?c=manage&a=msuper&tid={$teacher['tid']}\"  title='取消督导员'>是</a>":"<a href=\"index.php?c=manage&a=msuper&tid={$teacher['tid']}\"  title='设置督导员'>否</a>"; ?></td>
+                                        <td><?php echo $teacher['isadmin']=='1'?"<a href=\"index.php?c=manage&a=madmin&tid={$teacher['tid']}\"  title='取消管理员'>是</a>":"<a href=\"index.php?c=manage&a=madmin&tid={$teacher['tid']}\"  title='设置管理员'>否</a>";; ?></td>
+                                        <td>
+                                            <a href="/index.php?c=manage&a=resetpwd&tid=<?php echo $teacher['tid'];; ?>">
+
+                                                <button type="button" class="btn red btn-xs">
+                                                    <i class="icon-trash"></i>
+                                                    <span class="title">重置密码</span>
+                                                </button>
+
                                             </a>
-                                        </h4>
-                                    </div>
-                                    <div style="height: 0px;" id="collapse_2_<?php echo $i++;?>" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <p>
-                                                应到学生人数:<?php echo $attend['stunum']?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                缺勤人数: <?php echo $attend['comenum']?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                迟到人数:<?php echo $attend['latenum']?>
-                                            </p>
-                                            <p>
-                                                <?php echo $attend['suggeststudent']?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                            <a href="/index.php?c=manage&a=meditteacher&tid=<?php echo $teacher['tid'];; ?>">
 
-                            <?php } ?>
+                                                <button type="button" class="btn blue btn-xs">
+                                                    <i class="icon-trash"></i>
+                                                    <span class="title">编辑</span>
+                                                </button>
+
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+                                <?php }?>
+
+                                <tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+                <!-- END SAMPLE TABLE PORTLET-->
+
             </div>
         </div>
+
     </div>
     <!-- END PAGE -->
 </div>

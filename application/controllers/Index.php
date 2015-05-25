@@ -19,7 +19,7 @@ class IndexController extends Yaf_Controller_Abstract
     }
 
     //home page
-    public function  mainAction()
+    public function  personAction()
     {
         $dbh = Yaf_Registry::get('_db');
         $user = Yaf_Registry::get('user');
@@ -319,7 +319,7 @@ class IndexController extends Yaf_Controller_Abstract
         $attendid = Yaf_Session::getInstance()->get("attendediting");
         $dbh -> exec("update attend set photo='{$photo}',note='{$note}',part4=1  where id={$attendid}");
         Yaf_Session::getInstance()->del("attendediting");
-        echo "<script>window.location.assign(\"/index.php?c=index&a=main\");</script>";
+        echo "<script>window.location.assign(\"/index.php\");</script>";
     }
 
     //list all attend page
@@ -506,7 +506,6 @@ class IndexController extends Yaf_Controller_Abstract
         exit;
     }
     public function changepasswordAction(){
-        $dbh = Yaf_Registry::get('_db');
         $user = Yaf_Registry::get('user');
         $pclasses = Yaf_Registry::get('pclass');
         $hclass = Yaf_Registry::get('hclass');
@@ -517,12 +516,10 @@ class IndexController extends Yaf_Controller_Abstract
         return true;
     }
     public function dopasswordAction(){
-        $userid = Yaf_Session::getInstance()->get("user");
         $req = $this -> getRequest();
         $old = md5($req -> getPost('oldpasswd'));
         $new = $req -> getPost('newpasswd');
         $again = $req -> getPost('againpasswd');
-        echo $old.$new.$again;
         if($new != $again){
             echo "<script>alert('两次输入的密码不一样');window.history.back();</script>";
         }
@@ -532,9 +529,11 @@ class IndexController extends Yaf_Controller_Abstract
         $dbh = Yaf_Registry::get('_db');
         $user = Yaf_Registry::get('user');
         $userid = $user['tid'];
-        if(user){
+        $rs = $dbh->query("select * from teacher  where tid='{$userid}' and password='{$old}'");
+        $user = $rs->fetch();
+        if($user){
             $new = md5($new);
-            $dbh -> exec("update teacher set password={$new} where tid='{$userid}'");
+            $dbh -> exec("update teacher set password='{$new}' where tid='{$userid}'");
             $_SESSION=array();
             echo "<script>alert('密码修改成功,请重新登录');</script>";
             echo "<script>window.location.assign(\"/index.php?c=login\");</script>";exit;
@@ -543,9 +542,21 @@ class IndexController extends Yaf_Controller_Abstract
             echo "<script>alert('您输入的密码不正确');window.history.back();</script>";exit;
         }
     }
-
-
-
-
-
+    public function changeemailAction(){
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+    }
+    public function doemailAction(){
+        $dbh = Yaf_Registry::get('_db');
+        $req = $this -> getRequest();
+        $email = $req -> getPost('email');
+        $user = Yaf_Registry::get('user');
+        $userid = $user['tid'];
+        $dbh -> exec("update teacher set email='{$email}' where tid='{$userid}'");
+        echo "<script>window.location.assign(\"/index.php?a=person\");</script>";exit;
+    }
 }

@@ -34,7 +34,7 @@ class SearchController extends Yaf_Controller_Abstract
         }
         else
         {
-            echo "<script>window.location.assign(\"/index.php?a=main\");</script>";exit;
+            echo "<script>window.location.assign(\"/index.php\");</script>";exit;
         }
     }
     public function  majorlistAction()
