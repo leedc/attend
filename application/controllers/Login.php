@@ -18,12 +18,15 @@ class LoginController extends Yaf_Controller_Abstract {
         $dbh = Yaf_Registry::get('_db');
         $rs = $dbh->query("select * from teacher where tid='{$id}' and password='{$psw}'");
         $row = $rs->fetch();
-
         if($row) {
             if($rem){
                 setcookie("user",$row[tid]);
             }
             Yaf_Session::getInstance()->set("user",$row[tid]);
+            if($rem){
+                setcookie("user",$row[tid],time()+3600);
+            }
+
             echo "<script>window.location.assign(\"/index.php\");</script>";
         }
         else {

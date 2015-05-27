@@ -502,6 +502,7 @@ class IndexController extends Yaf_Controller_Abstract
     }
     public function logoutAction(){
         $_SESSION=array();
+        setcookie("user",'',time()-3600);
         echo "<script>window.location.assign(\"/index.php?c=login\");</script>";
         exit;
     }

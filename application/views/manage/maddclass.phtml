@@ -367,7 +367,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                                 <select name="hid" required="" class="form-control form-control-inline ">
                                                     <?php foreach($teachers as $teacher){ ?><!--aclasses-->
 
-                                                    <?php if($teacher['isheadtea']=='0'){ ?><!--aclasses-->
+                                                    <?php if($teacher['isheadtea']=='0' && $teacher['ispioneer']!='1'){ ?><!--aclasses-->
                                                         <option value="<?php echo $teacher['tid'];?>" ><?php echo $teacher['username'];?></option>
                                                     <?php } ?>
 
