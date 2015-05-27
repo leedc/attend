@@ -24,7 +24,7 @@ class LoginController extends Yaf_Controller_Abstract {
             }
             Yaf_Session::getInstance()->set("user",$row[tid]);
             if($rem){
-                setcookie("user",$row[tid],time()+3600);
+                setcookie("user",$row[tid],time()+3672000);
             }
 
             echo "<script>window.location.assign(\"/index.php\");</script>";
