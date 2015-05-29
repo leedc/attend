@@ -302,10 +302,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <ul class="page-breadcrumb breadcrumb">
                     <li>
                         <i class="icon-home"></i>
-                        <a href="#">查看统计</a>
-                        <i class="icon-anzle-right"></i>
+                        <a href="#">管理员</a>
+                        <i class="icon-angle-right"></i>
                     </li>
-                    <li><a href="#">班级统计</a></li>
+                    <li><a href="#">教师管理</a></li>
                     <li class="pull-right">
                         <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
                             <i class="icon-calendar"></i>
@@ -322,54 +322,40 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <!-- BEGIN SAMPLE TABLE PORTLET-->
                 <div class="portlet box red">
                     <div class="portlet-title">
-                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>班级管理</div>
-                        <div class="tools">
-
-
-                        </div>
+                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i>教师管理</div>
                     </div>
                     <div class="portlet-body">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                 <tr  style="text-align: center">
-                                    <th>#</th>
-                                    <th>班级</th>
-                                    <th>专业</th>
-                                    <th>入学年份</th>
-                                    <th>班主任</th>
-                                    <th>辅导员</th>
-                                    <th>人数</th>
-                                    <th>听课次数</th>
+                                    <th>学工号</th>
+                                    <th>姓名</th>
+                                    <th>邮箱</th>、
+                                    <th>听课任务数</th>
+                                    <th>已完成听课次数</th>
+                                    <th>未完成听课次数</th>
+                                    <th>被听课次数</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php
-                                $i=1;
-                                foreach($classes as $class){ ?>
+
+
+                                <?php foreach($teachers as $teacher){ ?>
+                                    <?php  if($teacher['isadmin']=='1') $count=16;elseif($teacher['isadmin']=='0'&&$teacher['issupervisor']=='1') $count=8;else $count=4;?>
                                     <tr>
-                                        <td><?php echo $i++; ?></td>
-                                        <td><?php echo $class['cid']; ?></td>
-                                        <td><?php echo $class['majorname']; ?></td>
-                                        <td><?php echo $class['year']; ?>年</td>
-                                        <td><?php echo $class['hteacher']; ?></td>
-                                        <td><?php echo $class['pteacher']; ?></td>
-                                        <td><?php echo $class['count']; ?></td>
-                                        <td><?php echo $class['num']; ?></td>
+                                        <td><?php echo $teacher['tid']; ?></td>
+                                        <td><?php echo $teacher['username']; ?></td>
+                                        <td><?php echo $teacher['email']; ?></td>
+                                        <td><?php echo $count ?></td>
+                                        <td><?php echo $teacher['attendtime']; ?>
+                                        <td><span style='<?php echo $count>$attendtime?"color :red":""; ?>;font-family: "微软雅黑", "Tahoma"'><?php echo $count>$attendtime?$count-$teacher['attendtime']:0; ?></span></td>
+                                        <td><?php echo $teacher['teachtime']; ?></td>
+
                                     </tr>
                                 <?php }?>
 
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>总听课次数：</td>
-                                    <td></td>
-                                    <td><?php echo $num; ?></td>
-                                </tr>
-
                                 </tbody>
                             </table>
                         </div>
@@ -387,7 +373,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN FOOTER -->
 <div class="footer">
     <div class="footer-inner">
-        2015 &copy; 山东建筑大学 计算机科学与技术学院  李志磊
+        2013 &copy; Metronic by keenthemes.
     </div>
     <div class="footer-tools">
          <span class="go-top">

@@ -288,7 +288,7 @@ class ManageController extends Yaf_Controller_Abstract {
         $this->getView()->assign("pclasses", $pclasses);
         $this->getView()->assign("hclass", $hclass);
 
-        $rs = $dbh->query("select * from class inner join major where major.id=class.mid   ");
+        $rs = $dbh->query("select * from class inner join major where major.id=class.mid order by year,major.id,class.cid");
         $classes = $rs->fetchAll();
         $i=0;
         foreach($classes as $class){
@@ -392,13 +392,67 @@ class ManageController extends Yaf_Controller_Abstract {
 
     }
     public function classesAction(){
+        $dbh = Yaf_Registry::get('_db');
         $user = Yaf_Registry::get('user');
         $pclasses = Yaf_Registry::get('pclass');
         $hclass = Yaf_Registry::get('hclass');
         $this->getView()->assign("user", $user);
         $this->getView()->assign("pclasses", $pclasses);
         $this->getView()->assign("hclass", $hclass);
+
+        $rs = $dbh->query("select * from class inner join major where major.id=class.mid   ");
+        $classes = $rs->fetchAll();
+        $i=0;
+        foreach($classes as $class){
+            $rs = $dbh->query("select username from teacher where tid='{$class['hid']}'");
+            $name = $rs->fetch();
+            $class['hteacher']=$name['username'];
+            $rs = $dbh->query("select username from teacher where tid='{$class['pid']}'");
+            $name = $rs->fetch();
+            $class['pteacher']=$name['username'];
+            $rs = $dbh->query("select count(*) as num from ctoa inner join attend where attend.id=ctoa.aid and attend.status=1 and ctoa.cid ='{$class['cid']}'");
+            $num = $rs->fetch();
+            $class['num']=$num['num'];
+            $classes[$i]=$class;$i++;
+        }
+        $this->getView()->assign("classes", $classes);
+        $rs = $dbh->query("select count(*) as num from  attend");
+        $num = $rs->fetch();
+        $num=$num['num'];
+
+        $this->getView()->assign("num", $num);
         return true;
+    }
+
+    public function teacherAction(){
+        $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        $rs = $dbh->query("select * from teacher  order by tid");
+        $teachers = $rs->fetchAll();
+        $i=0;
+        foreach($teachers as $teacher){
+            $rs = $dbh->query("select * from class where hid={$teacher['tid']} ");
+            $class = $rs->fetch();
+            $htclass='';
+            if($class){
+                $htclass.=$class['cid'];
+            }
+            $teacher['hclass']=$htclass;
+            $rs = $dbh->query("select count(*) as num from attend where aid={$teacher['tid']} and status=1");
+            $attendtime = $rs->fetch();
+            $teacher['attendtime'] = $attendtime['num'];
+            $rs = $dbh->query("select count(*) as num from attend where tid={$teacher['tid']}  and status=1");
+            $times = $rs->fetch();
+            $teacher['teachtime'] = $times['num'];
+            $teachers[$i]=$teacher;
+            $i++;
+        }
+        $this->getView()->assign("teachers", $teachers);
     }
 
 }
