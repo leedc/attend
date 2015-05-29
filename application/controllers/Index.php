@@ -15,6 +15,14 @@ class IndexController extends Yaf_Controller_Abstract
         $this->getView()->assign("user", $user);
         $this->getView()->assign("pclasses", $pclasses);
         $this->getView()->assign("hclass", $hclass);
+        $dbh = Yaf_Registry::get('_db');
+        $userid = $user['tid'];
+        $rs = $dbh->query("select count(*) as num from attend where aid='{$userid}'");
+        $attendtime = $rs->fetch();
+        $attendtime = $attendtime['num'];
+        $this -> getView() -> assign("attendtime",$attendtime);
+
+
         return true;
     }
 

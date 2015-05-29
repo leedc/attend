@@ -144,7 +144,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 </a>
             </li>
 
-            <?php if($pclasses || $class){ ?>
+            <?php if($pclasses || $hclass){ ?>
                 <li class="">
                     <a href="javascript:;">
                         <i class="icon-th-large"></i>
@@ -317,7 +317,12 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             </div>
         </div>
         <!-- END PAGE HEADER-->
-
+        <div class="container error-404">
+            <h2>尊敬的<?php echo $user['username']; ?>老师：</h2><?php  if($user['isadmin']=='1') $count=16;elseif($user['isadmin']=='0'&&$user['issupervisor']=='1') $count=8;else $count=4;?>
+            <h2><span style='color: greenyellow;font-size: 80px'>&nbsp;&nbsp;&nbsp;&nbsp;</span>本学期您总共有<span style='color: deepskyblue;font-size: 60px;font-family: "微软雅黑", "Tahoma"'><?php echo $count?></span>次听课任务要求。</h2>
+            <h2><span style='color: greenyellow;font-size: 80px'>&nbsp;&nbsp;&nbsp;&nbsp;</span>您已经完成了<span style='color: greenyellow;font-size: 60px;font-family: "微软雅黑", "Tahoma"'><?php echo $attendtime; ?></span>次，您还需要再完成<span style='color:#ff0000;font-size: 80px;font-family: "微软雅黑", "Tahoma"'><?php echo $count>$attendtime?$count-$attendtime:0; ?></span>次听课任务。</h2>
+            <h2><span style='color: greenyellow;font-size: 80px'>&nbsp;&nbsp;&nbsp;&nbsp;</span>祝您工作愉快。</h2>
+        </div>
     </div>
     <!-- END PAGE -->
 </div>

@@ -37,5 +37,4 @@ class LoginController extends Yaf_Controller_Abstract {
         return  true;
     }
 
-
 }
