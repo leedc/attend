@@ -454,5 +454,8 @@ class ManageController extends Yaf_Controller_Abstract {
         }
         $this->getView()->assign("teachers", $teachers);
     }
+    public function mbackAction(){
+        echo "aaa";exit;
+    }
 
 }
