@@ -512,5 +512,38 @@ class ManageController extends Yaf_Controller_Abstract {
         $dbh -> exec("delete from ctoa");
         echo "<script>alert('清空数据成功');window.history.back();</script>";exit;
     }
+    public function checkAction(){
+
+        $dbh = Yaf_Registry::get('_db');
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+
+
+        $rs=$dbh->query("select id,time,classname,classroom,tid,attend.aid from attend inner join ctoa where attend.id=ctoa.aid and attend.status=1 GROUP by attend.id order by rand() limit 0,50");
+        $attends = $rs->fetchAll();
+
+        $i=0;
+        foreach($attends as $attend){
+
+            $rs = $dbh->query("select * from teacher where tid='{$attend['tid']}'");
+            $teacher = $rs->fetch();
+            $attend['tname'] = $teacher['username'];
+            $rs = $dbh->query("select * from teacher where tid='{$attend['aid']}'");
+            $teacher = $rs->fetch();
+            $attend['aname'] = $teacher['username'];
+
+            $attends[$i]=$attend;
+            $i++;
+        }
+
+        $this -> getView() -> assign("attends",$attends);
+
+
+        return true;
+    }
 
 }

@@ -301,11 +301,14 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
                 <ul class="page-breadcrumb breadcrumb">
                     <li>
-                        <i class="icon-home"></i>
-                        <a href="#">教师</a>
+                        <i class="icon-user-md"></i>
+                        <a href="#">管理员</a>
                         <i class="icon-angle-right"></i>
                     </li>
-                    <li><a href="#">修改密码</a></li>
+                    <li>
+                        <a href="#">系统抽查</a>
+                        <i class="icon-angle-right"></i>
+                    </li>
                     <li class="pull-right">
                         <div id="dashboard-report-range" class="dashboard-date-range tooltips" >
                             <i class="icon-calendar"></i>
@@ -319,52 +322,58 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
         <!-- END PAGE HEADER-->
         <div class="row">
             <div class="col-md-12">
-                <div class="tabbable tabbable-custom boxless">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab_0">
-                            <div class="portlet box green">
-                                <div class="portlet-title">
-                                    <div class="caption"><i class="icon-reorder"></i>修改邮箱</div>
-                                </div>
-                                <div class="portlet-body form">
-                                    <!-- BEGIN FORM-->
-                                    <form action="/index.php?a=doemail" method="post" class="form-horizontal">
-                                        <div class="form-body">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">新邮箱</label>
-                                                <div class="col-md-4">
-                                                    <div class="input-group">
-                                                        <input class="form-control" placeholder="新邮箱" name="email" type="email">
-                                                        <span class="input-group-addon"><i class="icon-user"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>>
-                                        </div>
-                                        <div class="form-actions fluid">
-                                            <div class="col-md-offset-3 col-md-9">
-                                                <a href="/index.php?a=doemail">
-                                                    <button type="submit"  class="btn red ">
-                                                        <i class="icon-edit"></i>
-                                                        <span class="title">修改</span>
-                                                    </button>
-                                                </a>
-                                                <a href="/index.php">
-                                                    <button type="button"  class="btn red ">
-                                                        <i class="icon-edit"></i>
-                                                        <span class="title">取消</span>
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <!-- END FORM-->
-                                </div>
-                            </div>
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
+                <div class="portlet box red">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-book" style="font-size: 18px"></i></i>系统抽查</div>
+
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr style="text-align: center">
+                                    <th>#</th>
+                                    <th>课程</th>
+                                    <th>教室</th>
+                                    <th>授课教师</th>
+                                    <th>听课教师</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <?php $i=1; foreach($attends as $attend) { ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?></td>
+                                        <td><?php echo $attend['classname'] ?></td>
+                                        <td><?php echo $attend['classroom'] ?></td>
+                                        <td><?php echo $attend['tname'] ?></td>
+                                        <td><?php echo $attend['aname'] ?></td>
+                                        <td>
+                                            <a href="/index.php?c=search&a=browse&aid=<?php echo $attend['id'] ?>">
+                                                <button type="button" class="btn yellow btn-xs">
+                                                    <i class="icon-search"></i>
+                                                    <span class="title">查看</span>
+                                                </button>
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                <?php } ?>
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+                <!-- END SAMPLE TABLE PORTLET-->
+
             </div>
         </div>
+
     </div>
     <!-- END PAGE -->
 </div>
