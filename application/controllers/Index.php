@@ -568,4 +568,18 @@ class IndexController extends Yaf_Controller_Abstract
         $dbh -> exec("update teacher set email='{$email}' where tid='{$userid}'");
         echo "<script>window.location.assign(\"/index.php?a=person\");</script>";exit;
     }
+
+
+    public function  feedbackAction()
+    {
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+
+
+        return true;
+    }
 }

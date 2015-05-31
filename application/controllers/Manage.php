@@ -6,16 +6,6 @@ class ManageController extends Yaf_Controller_Abstract {
 
     }
 
-    public function  indexAction()
-    {
-        $user = Yaf_Registry::get('user');
-        $pclasses = Yaf_Registry::get('pclass');
-        $hclass = Yaf_Registry::get('hclass');
-        $this->getView()->assign("user", $user);
-        $this->getView()->assign("pclasses", $pclasses);
-        $this->getView()->assign("hclass", $hclass);
-        return true;
-    }
     public function  mcollegeAction()
     {
         $dbh = Yaf_Registry::get('_db');
