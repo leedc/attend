@@ -308,13 +308,13 @@ class IndexController extends Yaf_Controller_Abstract
         if($_FILES["photo"]["error"] == UPLOAD_ERR_OK){
             $ext= strtolower(end(explode('.',$_FILES['photo']['name'])));
             $tmp_name = $_FILES["photo"]["tmp_name"];
-            $photo= 'photo/'.date("Y_mm_dd",time())."_".$attendid.'_photo.'.$ext;//date("YY-mm-dd",time())."-".$attendid.
+            $photo= 'photo/'.date("Y_m_d",time())."_".$attendid.'_photo.'.$ext;//date("YY-m-d",time())."-".$attendid.
             move_uploaded_file($tmp_name, "$photo");
         }
         if($_FILES["note"]["error"] == UPLOAD_ERR_OK){
             $ext= strtolower(end(explode('.',$_FILES['photo']['name'])));
             $tmp_name = $_FILES["note"]["tmp_name"];
-            $note= 'photo/'.date("Y_mm_dd",time())."_".$attendid.'_note.'.$ext;//date("YY-mm-dd",time())."-".$attendid.
+            $note= 'photo/'.date("Y_m_d",time())."_".$attendid.'_note.'.$ext;//date("YY-m-d",time())."-".$attendid.
             move_uploaded_file($tmp_name, "$note");
         }
         $dbh = Yaf_Registry::get('_db');

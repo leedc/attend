@@ -455,7 +455,62 @@ class ManageController extends Yaf_Controller_Abstract {
         $this->getView()->assign("teachers", $teachers);
     }
     public function mbackAction(){
-        echo "aaa";exit;
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+
+        $files=array();
+
+        if ($dh = opendir("./back/"))
+        {
+            while (($file = readdir($dh)) !== false)
+            {
+                if($file!="." && $file!="..")
+                    {
+                        $files[]= $file;
+                    }
+                }
+
+            closedir($dh);
+        }
+        $this->getView()->assign("files", $files);
+
+
+    return true;
+    }
+    public function dobackAction(){
+        $back=new com_back();
+        $msg=$back->back();
+        echo "<script>alert('{$msg}');window.history.back();</script>";exit;
+        return true;
+    }
+    public function mdelbackAction(){
+        $file="./back/".$_GET['file'];
+        $result = @unlink ($file);
+        if ($result == false) {
+            echo "<script>alert('删除失败');window.history.back();</script>";exit;
+        } else {
+            echo "<script>alert('删除成功');window.history.back();</script>";exit;
+        }
+    }
+    public function mclearAction()
+    {
+        $user = Yaf_Registry::get('user');
+        $pclasses = Yaf_Registry::get('pclass');
+        $hclass = Yaf_Registry::get('hclass');
+        $this->getView()->assign("user", $user);
+        $this->getView()->assign("pclasses", $pclasses);
+        $this->getView()->assign("hclass", $hclass);
+        return true;
+    }
+    public function doclearAction(){
+        $dbh = Yaf_Registry::get('_db');
+        $dbh -> exec("delete from attend");
+        $dbh -> exec("delete from ctoa");
+        echo "<script>alert('清空数据成功');window.history.back();</script>";exit;
     }
 
 }
